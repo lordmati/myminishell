@@ -1,13 +1,15 @@
 #include "minishell.h"
 
-// void	print_token(t_tok *tok)
-// {
-// 	while (tok)
-// 	{
-// 		printf("content flag: %d content type:  %d  content tok :%s\n",tok->flag, tok->type, tok->content);
-// 		tok = tok->next;
-// 	}
-// } 
+void	print_token(t_tok *tok)
+{	
+	t_tok *aux;
+	aux =  tok;
+	while (aux)
+	{
+		printf("content flag: %d content type:  %d  content tok :%s\n",aux->flag, aux->type, aux->content);
+		aux = aux->next;
+	}
+} 
 
 static int	syntactic_analysis(t_msh *msh, int i)
 {

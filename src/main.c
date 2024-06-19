@@ -35,14 +35,15 @@ int	main(int argc, char **argv, char **envp)
 		add_history(msh.prompt);
 		if (check_lexer(&msh) == 1)
 		{
+			check_dollar(&msh);
 			union_tok(&msh, 1);
 			change_type(&msh);
 			struct_cmd(&msh);
 		}
 		msh.envp = envp;
 		ft_exeggutor(&msh);
-		msh.prompt = readline("prueba mi conchita$ ");
 		free_msh(&msh);
+		msh.prompt = readline("prueba mi conchita$ ");
 	}
 	return (0);
 }

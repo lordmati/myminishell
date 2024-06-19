@@ -75,6 +75,8 @@ typedef struct s_msh
 	int		fdout;
 
 }	t_msh;
+////////BORRAR*///////
+void	print_token(t_tok *tok);
 ///////ENVP////////
 void	organization_env(char **envp, t_env **env);
 ////////FREE///////
@@ -91,6 +93,8 @@ int		save_greater_than(char *greater, t_msh *msh);
 int		save_pipe(t_msh *msh);
 int		save_wd(char *wd, t_msh *msh);
 int		save_scape(char *wd, t_msh *msh);
+/////////EXPAND//////////////
+void	check_dollar(t_msh *msh);
 //////////NODES TOK///////////////
 t_tok	*new_node_tok(int type, char *content, int flag);
 void	add_back_tok(t_tok **tok, t_tok *aux);
