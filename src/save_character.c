@@ -45,24 +45,3 @@ int	save_pipe(t_msh *msh)
 	return (1);
 }
 
-int	save_scape(char *wd, t_msh *msh)
-{
-	int i;
-	char *content;
-	int flag;
-
-	i = 1;
-	flag = 0;
-	if (wd[i] == '\0')
-		msj_error(ERROR_SLASH);
-	else
-	{
-		if (wd[i + 1] != ' ' && wd[i + 1] != '|'
-			&& wd[i + 1] != '>' && wd[i + 1] != '<')
-			flag = 1;
-		content = ft_substr(wd , 1, 1);
-		tok_list(&msh->tok, T_WORD, content, flag);
-	}
-	return(i + 1);
-}
-

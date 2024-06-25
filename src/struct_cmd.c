@@ -51,6 +51,8 @@ static t_cmd	*new_node_cmd(int i, t_tok *tok)
 		tok = tok->next;
 		i++;
 	}
+	cmd->fdin = -1;
+	cmd->fdout =  -1;
 	cmd->argv[i] = NULL;
 	cmd->next = NULL;
 	return (cmd);
@@ -65,11 +67,7 @@ static t_tok	*create_node_cmd(t_tok *tok, t_msh *msh)
 	i = 0;
 	aux = tok;
 	msh->len_cmds += 1;
-	while (aux && aux->type == T_WORD)
-	{
-		aux = aux->next;
-		i++;
-	}
+	i = calculate_matrix(msh,msh->tok);
 	if (msh->cmd)
 	{
 		new = new_node_cmd(i, tok);

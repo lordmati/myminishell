@@ -94,8 +94,7 @@ static void	create_tokens(t_msh *msh, int i)
 			i++;
 		if (msh->prompt[i] != '|' && msh->prompt[i] != '<'
 			&& msh->prompt[i] != '>' && msh->prompt[i] != '\0'
-			&& msh->prompt[i] != '\'' && msh->prompt[i] != '\"'
-			&& msh->prompt[i] != '\\')
+			&& msh->prompt[i] != '\'' && msh->prompt[i] != '\"')
 			i += save_wd(&msh->prompt[i], msh);
 		else if (msh->prompt[i] == '\'')
 			i += save_quote(&msh->prompt[i], msh);
@@ -107,8 +106,6 @@ static void	create_tokens(t_msh *msh, int i)
 			i += save_smaller_than(&msh->prompt[i], msh);
 		else if (msh->prompt[i] == '>')
 			i += save_greater_than(&msh->prompt[i], msh);
-		else if (msh->prompt[i] == '\\')
-			i += save_scape(&msh->prompt[i], msh);
 	}
 }
 

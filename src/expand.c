@@ -76,7 +76,7 @@ static char	*check_env(char *str, int *i, t_msh *msh)
 	while (str[*i] != '\0')
 	{
 		if (str[*i] == '|' || str[*i] == ' ' || str[*i] == '<'
-			|| str[*i] == '>' || str[*i] == '$' || str[*i] == '\\')
+			|| str[*i] == '>' || str[*i] == '$')
 			break;
 		(*i)++;
 	}

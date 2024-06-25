@@ -21,6 +21,8 @@ typedef struct s_cmd
 {
 	char			**argv;
 	int				len_argv;
+	int				fdin;
+	int				fdout;
 	struct s_cmd	*next;
 }	t_cmd;
 
@@ -49,7 +51,6 @@ typedef enum e_tok_type
 	T_WORD = 12,
 	T_SIMPLE_QUOTE = 13,
 	T_DOUBLE_QUOTE = 14,
-	T_DOUBLE_QUOTE_DOLLAR = 15
 }	t_tok_type;
 
 typedef enum e_stats
@@ -71,9 +72,6 @@ typedef struct s_msh
 	char	*prompt;
 	int		len_cmds;
 	char	**envp;
-	int		fdin;
-	int		fdout;
-
 }	t_msh;
 ////////BORRAR*///////
 void	print_token(t_tok *tok);
@@ -92,7 +90,6 @@ int		save_smaller_than(char *smaller, t_msh *msh);
 int		save_greater_than(char *greater, t_msh *msh);
 int		save_pipe(t_msh *msh);
 int		save_wd(char *wd, t_msh *msh);
-int		save_scape(char *wd, t_msh *msh);
 /////////EXPAND//////////////
 void	check_dollar(t_msh *msh);
 //////////NODES TOK///////////////
@@ -101,6 +98,7 @@ void	add_back_tok(t_tok **tok, t_tok *aux);
 void	tok_list(t_tok **tok,int type,char *content, int flag);
 //////////STRUCT CMD///////////////
 void	struct_cmd(t_msh *msh);
+int		calculate_matrix(t_msh *msh, t_tok *tok);
 //////////SAVE OUTFILE/////////////
 t_tok	*save_trunc(t_tok *aux, t_msh *msh);
 t_tok	*save_append(t_tok *aux, t_msh *msh);

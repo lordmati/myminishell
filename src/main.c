@@ -4,8 +4,6 @@ static void	init_struck(t_msh *msh)
 {
 	msh->cmd = NULL;
 	msh->tok = NULL;
-	msh->fdin = -1;
-	msh->fdout = -1;
 	msh->len_cmds = 0;
 }
 
@@ -38,10 +36,13 @@ int	main(int argc, char **argv, char **envp)
 			check_dollar(&msh);
 			union_tok(&msh, 1);
 			change_type(&msh);
-			struct_cmd(&msh);
+			//print_token(msh.tok);
+			printf ("%d\n",calculate_matrix(&msh,msh.tok));
+			//struct_cmd(&msh);
+
 		}
-		msh.envp = envp;
-		ft_exeggutor(&msh);
+		//msh.envp = envp;
+		//ft_exeggutor(&msh);
 		free_msh(&msh);
 		msh.prompt = readline("prueba mi conchita$ ");
 	}
