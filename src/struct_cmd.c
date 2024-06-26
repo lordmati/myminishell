@@ -1,21 +1,24 @@
 #include "minishell.h"
 
-// static	void	print_cmd(t_cmd *cmd)
-// {
-// 	int i;
+static	void	print_cmd(t_cmd *cmd)
+{
+	int i;
 
-// 	i = 0;
-// 	while (cmd)
-// 	{
-// 		i = 0;
-// 		while (cmd->argv[i])
-// 		{
-// 			printf("content cmd :%s\n", cmd->argv[i]);
-// 			i++;
-// 		}
-// 		cmd = cmd->next;
-// 	}
-// } 
+	i = 0;
+	while (cmd)
+	{
+		i = 0;
+		printf("COMANDO:\n");
+		while (cmd->argv[i])
+		{
+			printf("content:%s\n", cmd->argv[i]);
+			i++;
+		}
+		printf("FD_IN: %d\n", cmd->fdin);
+		printf("FD_OUT: %d\n", cmd->fdout);
+		cmd = cmd->next;
+	}
+} 
 
 static void	add_back_cmd(t_cmd **cmd, t_cmd *new)
 {
@@ -45,11 +48,13 @@ static t_cmd	*new_node_cmd(int i, t_tok *tok)
 		return (NULL);
 	cmd->len_argv = i;
 	i = 0;
-	while (tok && tok->type == T_WORD)
+	while (tok && tok->type != T_PIPE)
 	{
-		cmd->argv[i] = ft_strdup(tok->content);
+		if (tok->type == T_WORD)
+			cmd->argv[i++] = ft_strdup(tok->content);
+		else if (tok->next && (tok->type >= 8 && tok->type <= 11))
+			tok = tok->next;
 		tok = tok->next;
-		i++;
 	}
 	cmd->fdin = -1;
 	cmd->fdout =  -1;
@@ -75,6 +80,19 @@ static t_tok	*create_node_cmd(t_tok *tok, t_msh *msh)
 	}
 	else
 		msh->cmd = new_node_cmd(i, tok);
+	while (aux && aux->type != T_PIPE)
+	{
+		if (aux->type == T_REDIRECTION_OUTFILE)
+			aux = save_trunc(aux, msh->cmd);
+		else if (aux->type == T_APPEND)
+		 	aux = save_append(aux, msh->cmd);
+		else if (aux->type == T_REDIRECTION_INFILE)
+		 	aux = save_infile(aux, msh);
+		else if (aux->type == T_HEREDOC)
+		 	aux = save_heredoc(aux, msh);
+		else if (aux->type == T_WORD)
+			aux = aux->next;
+	}
 	return (aux);
 }
 
@@ -85,17 +103,10 @@ void	struct_cmd(t_msh *msh)
 	aux = msh->tok;
 	while (aux != NULL)
 	{
-		if (aux->type == T_WORD)
+		if (aux->type != T_PIPE)
 			aux = create_node_cmd(aux, msh);
-		else if (aux->type == T_PIPE)
+		else
 			aux = aux->next;
-		else if (aux->type == T_APPEND)
-			aux = save_append(aux, msh);
-		else if (aux->type == T_REDIRECTION_OUTFILE)
-			aux = save_trunc(aux, msh);
-		else if (aux->type == T_REDIRECTION_INFILE)
-			aux = save_infile(aux, msh);
-		else if (aux->type == T_HEREDOC)
-			aux = save_heredoc(aux, msh);
 	}
+	print_cmd(msh->cmd);
 }

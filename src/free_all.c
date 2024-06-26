@@ -35,6 +35,10 @@ static void	free_cmd(t_cmd **cmd)
 	while (*cmd)
 	{
 		aux = (*cmd)->next;
+		if ((*cmd)->fdin > 2)
+			close((*cmd)->fdin);
+		if ((*cmd)->fdout > 2)
+			close((*cmd)->fdout);
 		free_matrix((*cmd)->argv);
 		free(*cmd);
 		*cmd = aux;

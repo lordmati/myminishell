@@ -1,4 +1,5 @@
 # include "minishell.h"
+
 int	calculate_matrix(t_msh *msh, t_tok *tok)
 {
 	int i;
@@ -16,4 +17,14 @@ int	calculate_matrix(t_msh *msh, t_tok *tok)
 		aux = aux->next;
 	}
 	return (i);
+}
+t_cmd *return_last(t_cmd *cmd)
+{
+	t_cmd *aux;
+
+	aux = cmd;
+	while (aux->next)
+		aux = aux->next;
+	return (aux);
+
 }

@@ -37,8 +37,7 @@ int	main(int argc, char **argv, char **envp)
 			union_tok(&msh, 1);
 			change_type(&msh);
 			//print_token(msh.tok);
-			printf ("%d\n",calculate_matrix(&msh,msh.tok));
-			//struct_cmd(&msh);
+			struct_cmd(&msh);
 
 		}
 		//msh.envp = envp;

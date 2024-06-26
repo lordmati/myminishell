@@ -99,9 +99,10 @@ void	tok_list(t_tok **tok,int type,char *content, int flag);
 //////////STRUCT CMD///////////////
 void	struct_cmd(t_msh *msh);
 int		calculate_matrix(t_msh *msh, t_tok *tok);
+t_cmd	*return_last(t_cmd *cmd);
 //////////SAVE OUTFILE/////////////
-t_tok	*save_trunc(t_tok *aux, t_msh *msh);
-t_tok	*save_append(t_tok *aux, t_msh *msh);
+t_tok	*save_trunc(t_tok *aux, t_cmd *cmd);
+t_tok	*save_append(t_tok *aux, t_cmd *cmd);
 /////////SAVE INFILE//////////////
 t_tok	*save_infile(t_tok *tok, t_msh *msh);
 t_tok	*save_heredoc(t_tok *tok, t_msh *msh);
