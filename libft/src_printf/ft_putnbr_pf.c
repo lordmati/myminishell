@@ -36,7 +36,7 @@ int	ft_putnbr_pf_pf(int n)
 
 	c = ft_len(n);
 	if (n == -2147483648)
-		ft_putstr_pf("-2147483648");
+		ft_putstr_pf_pf("-2147483648");
 	else
 	{
 		if (n < 0)
@@ -46,7 +46,7 @@ int	ft_putnbr_pf_pf(int n)
 		}
 		if (n > 9)
 		{
-			ft_putnbr_pf(n / 10);
+			ft_putnbr_pf_pf(n / 10);
 		}
 		ft_putchar((n % 10) + '0');
 	}

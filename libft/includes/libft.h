@@ -6,7 +6,7 @@
 /*   By: misaguir <misaguir@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 17:46:21 by pgonzal2          #+#    #+#             */
-/*   Updated: 2024/06/04 18:36:34 by misaguir         ###   ########.fr       */
+/*   Updated: 2024/06/27 14:59:40 by misaguir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,11 @@ t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 						void (*del)(void *));
 int	ft_printf(const char *format, ...);
 int	ft_putchar(char c);
-int	ft_putnbr_he(unsigned int nbr);
-int	ft_putnbr_x(unsigned long nbr);
-int	ft_putnbr_pf(int n);
-int	ft_putstr_pf(char *s);
-int	ft_putnbr_unsigned(unsigned int n);
+int	ft_putnbr_pf_he(unsigned int nbr);
+int	ft_putnbr_pf_x(unsigned long nbr);
+int	ft_putnbr_pf_pf(int n);
+int	ft_putstr_pf_pf(char *s);
+int	ft_putnbr_pf_unsigned(unsigned int n);
 int	ft_p(unsigned long p);
 
 # ifndef BUFFER_SIZE
@@ -90,7 +90,7 @@ char	*ft_strdup_gnl(char *s1);
 size_t	ft_strlen_gnl(char *c);
 char	*ft_strchr_gnl(char *s, int c);
 char	*ft_strjoin_gnl(char *s1, char *s2);
-char	*ft_file_read(char *estatic, int fd);
+char	*ft_read( int fd,char *estatic);
 char	*get_next_line(int fd);
 char	*ft_substr_gnl(char *s, unsigned int start, size_t len);
 

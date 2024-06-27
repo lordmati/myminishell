@@ -1,61 +1,57 @@
 #include "minishell.h"
 
-// void    ft_exeggutor(t_msh *msh)
-// {
-//     int tmpin;
-//     int tmpout;
-// 	int fdout;
-//     int ret;
-//     int i;
-//     int fdpipe[2];
-// 	char	*path;
+void    ft_exeggutor(t_msh *msh)
+{
+    int tmpin;
+    int tmpout;
+	int fdout;
+    int ret;
+    int i;
+    int fdpipe[2];
+	char	*path;
 
-//     tmpin = dup(0);
-//     tmpout = dup(1);
-//     i = -1;
-//     if (msh->fdin == -1)
-//         msh->fdin = dup(tmpin);
-//     printf("len_cmds: %d\n", msh->len_cmds);
-//     while(++i < msh->len_cmds)
-//     {
-//         dup2(msh->fdin, 0);
-//         close(msh->fdin);
-//         if (i == msh->len_cmds - 1)
-//         {
-//             if (msh->fdout == -1)
-//                 fdout = dup(tmpout);
-//         }
-//         else
-//         {
-//             pipe(fdpipe);
-//             fdout = fdpipe[1];
-//             msh->fdin = fdpipe[0];
-//         }
-//         dup2(fdout, 1);
-//         close(fdout);
-//         if (!ft_builtins(msh))
-//         {
-//             ret = fork();
-//             if (!ret)
-//             {
-//                 path = ft_get_path(msh);
-//                 if (!path)
-//                     return(perror("path"));
-//                 dprintf(2, "path: %s\n", path);
-//                 dprintf(2, "argv1: %s\n", msh->cmd->argv[0]);
-//                 dprintf(2, "argv2: %s\n", msh->cmd->argv[1]);
-//                 execve(path, msh->cmd->argv, msh->envp);
-//                 perror("exec");
-//                 exit(1);
-//             }
-//         }
-// 		msh->cmd = msh->cmd->next;
-//     }
-// 	dup2(tmpin, 0);
-// 	dup2(tmpout, 1);
-// 	close(tmpin);
-// 	close(tmpout);
-// }
+    tmpin = dup(0);
+    tmpout = dup(1);
+    i = -1;
+    if (msh->cmd->fdin == -1)
+        msh->cmd->fdin = dup(tmpin);
+    while(++i < msh->len_cmds)
+    {
+        dup2(msh->cmd->fdin, 0);
+        close(msh->cmd->fdin);
+        if (i == msh->len_cmds - 1)
+        {
+            if (msh->cmd->fdout == -1)
+                fdout = dup(tmpout);
+        }
+        else
+        {
+            pipe(fdpipe);
+            fdout = fdpipe[1];
+            msh->cmd->fdin = fdpipe[0];
+        }
+        dup2(fdout, 1);
+        close(fdout);
+        if (!ft_builtins(msh))
+        {
+            ret = fork();
+            if (!ret)
+            {
+                path = ft_get_path(msh);
+                if (!path)
+                    return(perror("path"));
+                execve(path, msh->cmd->argv, msh->envp);
+                perror("exec");
+                exit(1);
+            }
+            else
+                waitpid(ret,NULL,0);
+        }
+		msh->cmd = msh->cmd->next;
+    }
+	dup2(tmpin, 0);
+	dup2(tmpout, 1);
+}
 
 int    ft_builtins(t_msh *msh)
 {

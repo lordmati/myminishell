@@ -10,6 +10,7 @@
 # include <unistd.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <sys/wait.h>
 # define ERROR_PIPES "bash: syntax error near unexpected token `|'"
 # define ERROR_NEWLINE "bash: syntax error near unexpected token `newline'"
 # define ERROR_DOUBLE_QUOTES "bash: expected to close the double quote"

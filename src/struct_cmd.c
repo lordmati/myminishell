@@ -8,7 +8,7 @@ static	void	print_cmd(t_cmd *cmd)
 	while (cmd)
 	{
 		i = 0;
-		printf("COMANDO:\n");
+		ft_printf("COMANDO:\n");
 		while (cmd->argv[i])
 		{
 			printf("content:%s\n", cmd->argv[i]);

@@ -40,8 +40,8 @@ int	main(int argc, char **argv, char **envp)
 			struct_cmd(&msh);
 
 		}
-		//msh.envp = envp;
-		//ft_exeggutor(&msh);
+		msh.envp = envp;
+		ft_exeggutor(&msh);
 		free_msh(&msh);
 		msh.prompt = readline("prueba mi conchita$ ");
 	}
