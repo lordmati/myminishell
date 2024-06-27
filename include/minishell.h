@@ -111,13 +111,14 @@ t_tok	*save_heredoc(t_tok *tok, t_msh *msh);
 void    ft_echo(t_cmd *cmd);
 void	ft_cd(t_msh *msh);
 void    ft_pwd();
-void    ft_env(t_cmd *cmd);
+void    ft_env(t_msh *msh);
 void	ft_sort_expt(t_msh *msh);
 void	ft_add_expt(t_msh *msh, int i, int j, t_env **env);
 void	ft_swap(char **a, char **b);
 void	ft_export(t_msh *msh);
 void    ft_pop(t_env **head, char *str);
 void    ft_unset(t_msh *data);
+void	ft_exit(t_cmd *cmd);
 
 ////////////////exeggutor/////////////////
 void    ft_exeggutor(t_msh *msh);

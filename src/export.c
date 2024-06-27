@@ -105,5 +105,5 @@ void	ft_export(t_msh *msh)
 		ft_add_expt(msh, 0, 0, &msh->env);
 	}
 	ft_sort_expt(msh);
-    //printenv(msh->export);
+    printenv(msh->export);
 }

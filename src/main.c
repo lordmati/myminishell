@@ -38,7 +38,6 @@ int	main(int argc, char **argv, char **envp)
 			change_type(&msh);
 			//print_token(msh.tok);
 			struct_cmd(&msh);
-
 		}
 		msh.envp = envp;
 		ft_exeggutor(&msh);

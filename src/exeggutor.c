@@ -1,74 +1,85 @@
 #include "minishell.h"
 
-void    ft_exeggutor(t_msh *msh)
+void ft_exeggutor(t_msh *msh)
 {
     int tmpin;
     int tmpout;
-	int fdout;
     int ret;
     int i;
     int fdpipe[2];
-	char	*path;
+    char *path;
 
     tmpin = dup(0);
     tmpout = dup(1);
     i = -1;
     if (msh->cmd->fdin == -1)
-        msh->cmd->fdin = dup(tmpin);
-    while(++i < msh->len_cmds)
+        msh->cmd->fdin = dup(tmpin); 
+    while (++i < msh->len_cmds)
     {
         dup2(msh->cmd->fdin, 0);
         close(msh->cmd->fdin);
+
         if (i == msh->len_cmds - 1)
         {
             if (msh->cmd->fdout == -1)
-                fdout = dup(tmpout);
+                msh->cmd->fdout = dup(tmpout);
         }
         else
         {
             pipe(fdpipe);
-            fdout = fdpipe[1];
-            msh->cmd->fdin = fdpipe[0];
+            msh->cmd->fdout = fdpipe[1];
+            msh->cmd->next->fdin = fdpipe[0];
         }
-        dup2(fdout, 1);
-        close(fdout);
+
+        dup2(msh->cmd->fdout, 1);
+        close(msh->cmd->fdout);
+
         if (!ft_builtins(msh))
         {
             ret = fork();
-            if (!ret)
+            if (ret == 0)  // Child process
             {
                 path = ft_get_path(msh);
                 if (!path)
-                    return(perror("path"));
+                    return (void)perror("path");
                 execve(path, msh->cmd->argv, msh->envp);
                 perror("exec");
                 exit(1);
             }
-            else
-                waitpid(ret,NULL,0);
+            else  // Parent process
+            {
+                waitpid(ret, NULL, 0);
+                // Close the write end of the pipe in the parent
+                if (i < msh->len_cmds - 1)
+                    close(fdpipe[1]);
+            }
         }
-		msh->cmd = msh->cmd->next;
+        msh->cmd = msh->cmd->next;
     }
-	dup2(tmpin, 0);
-	dup2(tmpout, 1);
+    dup2(tmpin, 0);
+    dup2(tmpout, 1);
+    close(tmpin);
+    close(tmpout);
 }
 
 int    ft_builtins(t_msh *msh)
 {
+    if (msh->cmd->argv[0] == NULL)
+        return (1);
     if (!ft_strncmp(msh->cmd->argv[0], "echo", 4))
         return (ft_echo(msh->cmd), 1);
-    else if (!ft_strncmp(msh->cmd->argv[0], "cd", 4))
+    else if (!ft_strncmp(msh->cmd->argv[0], "cd", 2))
         return (ft_cd(msh), 1);
-    else if (!ft_strncmp(msh->cmd->argv[0], "export", 4))
+    else if (!ft_strncmp(msh->cmd->argv[0], "export\0", 7))
         return (ft_export(msh), 1);
-    else if (!ft_strncmp(msh->cmd->argv[0], "unset", 4))
+    else if (!ft_strncmp(msh->cmd->argv[0], "unset", 5))
         return (ft_unset(msh), 1);
-    else if (!ft_strncmp(msh->cmd->argv[0], "pwd", 4))
+    else if (!ft_strncmp(msh->cmd->argv[0], "pwd", 3))
         return (ft_pwd(), 1);
-    else if (!ft_strncmp(msh->cmd->argv[0], "env", 4))
-        return (ft_env(msh->cmd), 1);
-    // else if (ft_strncmp(msh->cmd->argv[0], "exit", 4))
-    //     ft_exit(msh->cmd);
+    else if (!ft_strncmp(msh->cmd->argv[0], "env", 3))
+        return (ft_env(msh), 1);
+    else if (!ft_strncmp(msh->cmd->argv[0], "exit", 4))
+        ft_exit(msh->cmd);
     return (0);
 }
 

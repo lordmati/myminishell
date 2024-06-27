@@ -1,24 +1,24 @@
 #include "minishell.h"
 
-static	void	print_cmd(t_cmd *cmd)
-{
-	int i;
+// static	void	print_cmd(t_cmd *cmd)
+// {
+// 	int i;
 
-	i = 0;
-	while (cmd)
-	{
-		i = 0;
-		ft_printf("COMANDO:\n");
-		while (cmd->argv[i])
-		{
-			printf("content:%s\n", cmd->argv[i]);
-			i++;
-		}
-		printf("FD_IN: %d\n", cmd->fdin);
-		printf("FD_OUT: %d\n", cmd->fdout);
-		cmd = cmd->next;
-	}
-} 
+// 	i = 0;
+// 	while (cmd)
+// 	{
+// 		i = 0;
+// 		ft_printf("COMANDO:\n");
+// 		while (cmd->argv[i])
+// 		{
+// 			printf("content:%s\n", cmd->argv[i]);
+// 			i++;
+// 		}
+// 		printf("FD_IN: %d\n", cmd->fdin);
+// 		printf("FD_OUT: %d\n", cmd->fdout);
+// 		cmd = cmd->next;
+// 	}
+// } 
 
 static void	add_back_cmd(t_cmd **cmd, t_cmd *new)
 {
@@ -43,7 +43,7 @@ static t_cmd	*new_node_cmd(int i, t_tok *tok)
 	cmd = malloc(sizeof(t_cmd));
 	if (!cmd)
 		return (NULL);
-	cmd->argv = malloc(sizeof(char *) * i);
+	cmd->argv = malloc(sizeof(char *) * i + 1);
 	if (!cmd->argv)
 		return (NULL);
 	cmd->len_argv = i;
@@ -69,10 +69,9 @@ static t_tok	*create_node_cmd(t_tok *tok, t_msh *msh)
 	t_cmd	*new;
 	int		i;
 
-	i = 0;
 	aux = tok;
 	msh->len_cmds += 1;
-	i = calculate_matrix(msh,msh->tok);
+	i = calculate_matrix(msh, msh->tok);
 	if (msh->cmd)
 	{
 		new = new_node_cmd(i, tok);
@@ -108,5 +107,4 @@ void	struct_cmd(t_msh *msh)
 		else
 			aux = aux->next;
 	}
-	print_cmd(msh->cmd);
 }

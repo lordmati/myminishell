@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_ins.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pgonzal2 <pgonzal2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: misaguir <misaguir@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:53:17 by pgonzal2          #+#    #+#             */
-/*   Updated: 2024/06/04 19:07:13 by pgonzal2         ###   ########.fr       */
+/*   Updated: 2024/06/27 19:28:24 by misaguir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,15 @@ void	ft_pwd()
 	free(cwd);
 }
 
-void	ft_env(t_cmd *cmd)
+void	ft_env(t_msh *msh)
 {
-	(void)cmd;
+	t_env *env;
+	
+	env = msh->env;
+	while(env)
+	{
+		ft_printf("%s=",env->name);
+		ft_printf("%s\n",env->content);
+		env = env->next;
+	}
 }
