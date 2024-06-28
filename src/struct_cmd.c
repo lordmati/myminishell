@@ -1,24 +1,22 @@
 #include "minishell.h"
 
-// static	void	print_cmd(t_cmd *cmd)
-// {
-// 	int i;
-
-// 	i = 0;
-// 	while (cmd)
-// 	{
-// 		i = 0;
-// 		ft_printf("COMANDO:\n");
-// 		while (cmd->argv[i])
-// 		{
-// 			printf("content:%s\n", cmd->argv[i]);
-// 			i++;
-// 		}
-// 		printf("FD_IN: %d\n", cmd->fdin);
-// 		printf("FD_OUT: %d\n", cmd->fdout);
-// 		cmd = cmd->next;
-// 	}
-// } 
+static t_tok	*save_redirection(t_tok *tok, t_msh *msh)
+{
+	while (tok && tok->type != T_PIPE)
+	{
+		if (tok->type == T_REDIRECTION_OUTFILE)
+			tok = save_trunc(tok, msh->cmd);
+		else if (tok->type == T_APPEND)
+		 	tok = save_append(tok, msh->cmd);
+		else if (tok->type == T_REDIRECTION_INFILE)
+		 	tok = save_infile(tok, msh);
+		else if (tok->type == T_HEREDOC)
+		 	tok = save_heredoc(tok, msh);
+		else if (tok->type == T_WORD)
+			tok =tok->next;
+	}
+	return(tok);
+}
 
 static void	add_back_cmd(t_cmd **cmd, t_cmd *new)
 {
@@ -56,6 +54,7 @@ static t_cmd	*new_node_cmd(int i, t_tok *tok)
 			tok = tok->next;
 		tok = tok->next;
 	}
+	cmd->error = 0;
 	cmd->fdin = -1;
 	cmd->fdout =  -1;
 	cmd->argv[i] = NULL;
@@ -79,19 +78,7 @@ static t_tok	*create_node_cmd(t_tok *tok, t_msh *msh)
 	}
 	else
 		msh->cmd = new_node_cmd(i, tok);
-	while (aux && aux->type != T_PIPE)
-	{
-		if (aux->type == T_REDIRECTION_OUTFILE)
-			aux = save_trunc(aux, msh->cmd);
-		else if (aux->type == T_APPEND)
-		 	aux = save_append(aux, msh->cmd);
-		else if (aux->type == T_REDIRECTION_INFILE)
-		 	aux = save_infile(aux, msh);
-		else if (aux->type == T_HEREDOC)
-		 	aux = save_heredoc(aux, msh);
-		else if (aux->type == T_WORD)
-			aux = aux->next;
-	}
+	aux = save_redirection(aux,msh);
 	return (aux);
 }
 

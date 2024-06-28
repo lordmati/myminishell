@@ -24,6 +24,7 @@ typedef struct s_cmd
 	int				len_argv;
 	int				fdin;
 	int				fdout;
+	int				error;
 	struct s_cmd	*next;
 }	t_cmd;
 
@@ -123,10 +124,12 @@ void    ft_unset(t_msh *data);
 void	ft_exit(t_cmd *cmd);
 
 ////////////////exeggutor/////////////////
-void    ft_exeggutor(t_msh *msh);
+void    ft_exeggutor(t_msh *msh, int i);
 char    *ft_get_content(t_env *env, char *name);
 char	*ft_get_path(t_msh *msh);
 int     ft_builtins(t_msh *msh);
+int    	ft_child_process(t_msh *msh, int ret, int i, int fdpipe);
+int    ft_redirection(t_msh *msh, int i, int tmpout);
 
 
 //////////////PRINT///////////////  

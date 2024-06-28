@@ -19,7 +19,8 @@ t_tok	*save_trunc(t_tok *aux, t_cmd *cmd)
 	aux = aux->next;
 	if (last->fdout >= 3)
 		close (last->fdout);
-	last->fdout = open(aux->content, O_RDWR | O_CREAT | O_TRUNC, 0644);
+	if (last->error == 0)
+		last->fdout = open(aux->content, O_RDWR | O_CREAT | O_TRUNC, 0644);
 	aux = aux->next;
 	return (aux);
 }

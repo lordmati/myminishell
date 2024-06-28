@@ -26,5 +26,4 @@ t_cmd *return_last(t_cmd *cmd)
 	while (aux->next)
 		aux = aux->next;
 	return (aux);
-
 }

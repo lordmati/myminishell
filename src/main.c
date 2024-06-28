@@ -41,10 +41,10 @@ int	main(int argc, char **argv, char **envp)
 			union_tok(&msh, 1);
 			change_type(&msh);
 			struct_cmd(&msh);
+			msh.envp = envp;
+			ft_exeggutor(&msh, -1);
+			free_msh(&msh);
 		}
-		msh.envp = envp;
-		ft_exeggutor(&msh);
-		free_msh(&msh);
 		msh.prompt = readline("prueba mi conchita$ ");
 	}
 	return (0);
