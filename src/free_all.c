@@ -54,4 +54,5 @@ void	free_msh(t_msh *msh)
 	if (msh->prompt)
 		free(msh->prompt);
 	msh->len_cmds = 0;
+	msh->number_error = 0;
 }

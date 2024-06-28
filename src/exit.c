@@ -7,6 +7,7 @@ static int ft_special_atoi(char *str)
     int     i;
 
     i = 0;
+    num = 0;
     signo = 1;
     while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
         i++;
@@ -30,17 +31,18 @@ void	ft_exit(t_cmd *cmd)
 {
 	int num;
 
+    num = 0;
 	if (cmd->len_argv > 2)
-		ft_putstr_fd("error: too many arguments\n", 1);
+		ft_putstr_fd("Error: too many arguments\n", 1);
 	else if (cmd->len_argv == 2)
 	{
 		num = ft_special_atoi(cmd->argv[1]);
 		if (num == 255)
 		{
-			ft_putstr_fd("error: numeric argument required\n", 1);
+			ft_putstr_fd("Error: numeric argument required\n", 1);
 			exit(num);
 		}
 	}
 	ft_putstr_fd("exit\n", 1);
-	exit (0);
+	exit (num);
 }

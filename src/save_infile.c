@@ -33,7 +33,7 @@ t_tok	*save_infile(t_tok *tok, t_msh *msh)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(tok->content, 2);
-		msj_error(ERROR_NO_FILE);
+		msj_error(ERROR_NO_FILE, msh, 1);
 		return (NULL);
 	}
 	tok = tok->next;

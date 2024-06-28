@@ -12,6 +12,8 @@ void ft_exeggutor(t_msh *msh)
     tmpin = dup(0);
     tmpout = dup(1);
     i = -1;
+    if (!msh->cmd)
+        return ;
     if (msh->cmd->fdin == -1)
         msh->cmd->fdin = dup(tmpin); 
     while (++i < msh->len_cmds)

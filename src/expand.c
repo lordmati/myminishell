@@ -49,7 +49,7 @@ static char *joined_msh(char *line, char *aux)
 	return (ret);
 }
 
-static char	*expand_env(char *str,t_env *env)
+static char	*expand_env(char *str,t_env *env, t_msh *msh)
 {
 	int len;
 	t_env *aux;
@@ -58,7 +58,9 @@ static char	*expand_env(char *str,t_env *env)
 	len = ft_strlen(str);
 	while (aux)
 	{
-		if (ft_strncmp(str,aux->name,len) == 0 && aux->name[len] == '\0')
+		if (ft_strncmp(str, "?", 1) == 0)
+			return(ft_itoa(msh->number_status));
+		else if (ft_strncmp(str,aux->name,len) == 0 && aux->name[len] == '\0')
 			return(ft_strdup(aux->content));
 		aux = aux->next;
 	}
@@ -78,10 +80,15 @@ static char	*check_env(char *str, int *i, t_msh *msh)
 		if (str[*i] == '|' || str[*i] == ' ' || str[*i] == '<'
 			|| str[*i] == '>' || str[*i] == '$')
 			break;
+		else if (str[*i] == '?')
+		{
+			(*i)++;
+			break ;
+		}
 		(*i)++;
 	}
 	aux = ft_substr(str, start, (*i - start));
-	ret = expand_env(aux,msh->env);
+	ret = expand_env(aux,msh->env,msh);
 	free(aux);
 	return (ret);
 }

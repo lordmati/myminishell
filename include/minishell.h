@@ -72,6 +72,8 @@ typedef struct s_msh
 	t_tok	*tok;
 	char	*prompt;
 	int		len_cmds;
+	int		number_status;
+	int		number_error;
 	char	**envp;
 }	t_msh;
 ////////BORRAR*///////
@@ -81,7 +83,7 @@ void	organization_env(char **envp, t_env **env);
 ////////FREE///////
 void	free_msh(t_msh *msh);
 ///////UTILS_PARSER/////////
-void	msj_error(char *str);
+void	msj_error(char *str, t_msh *msh, int status);
 //////UNION TOK//////////
 void	union_tok(t_msh *msh, int flag_next);
 void	change_type(t_msh *msh);

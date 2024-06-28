@@ -5,10 +5,14 @@ static void	init_struck(t_msh *msh)
 	msh->cmd = NULL;
 	msh->tok = NULL;
 	msh->len_cmds = 0;
+	msh->number_status = 0;
+	msh->number_error = 0;
 }
 
-void	msj_error(char *str)
+void	msj_error(char *str, t_msh *msh, int status)
 {
+	msh->number_status = status;
+	msh->number_error = status;
 	ft_putendl_fd(str, 2);
 	return ;
 }
@@ -36,7 +40,6 @@ int	main(int argc, char **argv, char **envp)
 			check_dollar(&msh);
 			union_tok(&msh, 1);
 			change_type(&msh);
-			//print_token(msh.tok);
 			struct_cmd(&msh);
 		}
 		msh.envp = envp;
