@@ -122,7 +122,11 @@ void	ft_export(t_msh *msh);
 void    ft_pop(t_env **head, char *str);
 void    ft_unset(t_msh *data);
 void	ft_exit(t_cmd *cmd);
-
+/////////////EXPAND_HD/////////////////
+char	*check_word(char *line, int *i);
+char	*joined_msh(char *line, char *aux);
+char	*expand_env(char *str,t_env *env, t_msh *msh);
+char	*check_env(char *str, int *i, t_msh *msh);
 ////////////////exeggutor/////////////////
 void    ft_exeggutor(t_msh *msh, int i);
 char    *ft_get_content(t_env *env, char *name);

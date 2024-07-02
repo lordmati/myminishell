@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static char	*check_word(char *line, int *i)
+char	*check_word(char *line, int *i)
 {
 	int j;
 	int len;
@@ -23,7 +23,7 @@ static char	*check_word(char *line, int *i)
 	return (ret);
 }
 
-static char *joined_msh(char *line, char *aux)
+char *joined_msh(char *line, char *aux)
 {
 	int		i;
 	int		size;
@@ -49,7 +49,7 @@ static char *joined_msh(char *line, char *aux)
 	return (ret);
 }
 
-static char	*expand_env(char *str,t_env *env, t_msh *msh)
+char	*expand_env(char *str,t_env *env, t_msh *msh)
 {
 	int len;
 	t_env *aux;
@@ -67,7 +67,7 @@ static char	*expand_env(char *str,t_env *env, t_msh *msh)
 	return (ft_strdup(""));
 }
 
-static char	*check_env(char *str, int *i, t_msh *msh)
+char	*check_env(char *str, int *i, t_msh *msh)
 {
 	char *aux;
 	char *ret;
@@ -77,8 +77,7 @@ static char	*check_env(char *str, int *i, t_msh *msh)
 	*i += 1;
 	while (str[*i] != '\0')
 	{
-		if (str[*i] == '|' || str[*i] == ' ' || str[*i] == '<'
-			|| str[*i] == '>' || str[*i] == '$')
+		if ((!ft_isalnum(str[*i]) || str[*i] == '_') && str[*i] != '?')
 			break;
 		else if (str[*i] == '?')
 		{

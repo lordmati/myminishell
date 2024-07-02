@@ -7,6 +7,8 @@ static void	init_struck(t_msh *msh)
 	msh->len_cmds = 0;
 	msh->number_status = 0;
 	msh->number_error = 0;
+	msh->env = NULL;
+	msh->export = NULL;
 }
 
 void	msj_error(char *str, t_msh *msh, int status)
@@ -43,8 +45,8 @@ int	main(int argc, char **argv, char **envp)
 			struct_cmd(&msh);
 			msh.envp = envp;
 			ft_exeggutor(&msh, -1);
-			free_msh(&msh);
 		}
+		free_msh(&msh);
 		msh.prompt = readline("prueba mi conchita$ ");
 	}
 	return (0);

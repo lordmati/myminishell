@@ -60,6 +60,8 @@ void    organization_env(char **envp,t_env **env)
 {
 	t_env	*aux;
 
+	if (!envp[0])
+		return ;
 	*env = malloc(sizeof(t_env));
 	if (!*env)
 		return ;

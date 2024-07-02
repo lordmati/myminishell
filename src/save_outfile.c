@@ -6,7 +6,10 @@ t_tok	*save_append(t_tok *aux, t_cmd *cmd)
 
 	last = return_last(cmd);
 	aux = aux->next;
-	last->fdout = open(aux->content, O_RDWR | O_CREAT | O_APPEND, 0644);
+	if (last->fdout >= 3)
+		close (last->fdout);
+	if (last->error == 0)
+		last->fdout = open(aux->content, O_RDWR | O_CREAT | O_APPEND, 0644);
 	aux = aux->next;
 	return (aux);
 }
