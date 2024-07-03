@@ -7,6 +7,7 @@ static void	init_struck(t_msh *msh)
 	msh->len_cmds = 0;
 	msh->number_status = 0;
 	msh->number_error = 0;
+	msh->ret = 0;
 }
 
 void	msj_error(char *str, t_msh *msh, int status)

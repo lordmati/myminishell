@@ -9,17 +9,6 @@ void	ft_swap(char **a, char **b)
 	*b = tmp;
 }
 
-void printenv(t_env *env)
-{
-	while(env)
-	{
-		printf("NAME: %s\n",env->name);
-		printf("CONTENT: %s\n",env->content);
-		printf("------------------------------\n");
-		env = env->next;
-	}
-}
-
 void	ft_sort_expt(t_msh *msh)
 {
 	t_env	*one;
@@ -57,19 +46,6 @@ static void	ft_addback(t_env **export, t_env *aux)
 	}
 }
 
-t_env	*new_node(int i)
-{
-	t_env	*new;
-
-	new = (t_env *)malloc(sizeof(t_env));
-	if (!new)
-		return (NULL);
-	new->content = NULL;
-	new->name = malloc(sizeof(char) * i + 1);
-	new->next = NULL;
-	return (new);
-}
-
 void	ft_add_expt(t_msh *msh, int i, int j, t_env **env)
 {
 	char 	**str;
@@ -99,11 +75,23 @@ void	ft_add_expt(t_msh *msh, int i, int j, t_env **env)
 
 void	ft_export(t_msh *msh)
 {
-	if(msh->cmd->len_argv > 0)
+	int i;
+
+	i = -1;
+	if(msh->cmd->len_argv > 1)
 	{
+		if (!ft_valid_identifier(msh))
+			return ;
 		ft_add_expt(msh, 0, 0, &msh->export);
-		ft_add_expt(msh, 0, 0, &msh->env);
+		while(msh->cmd->argv[++i])
+		{
+			if (ft_strchr(msh->cmd->argv[i], '='))
+				ft_add_expt(msh, 0, 0, &msh->env);
+		}
 	}
-	ft_sort_expt(msh);
-    printenv(msh->export);
+	else
+	{
+		ft_sort_expt(msh);
+    	ft_print_expt(msh);
+	}
 }
