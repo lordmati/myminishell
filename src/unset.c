@@ -15,25 +15,38 @@ void    ft_unset(t_msh *msh)
     return ;
 }
 
+static void    ft_free_node(t_env *node)
+{
+        free(node->name);
+        free(node->content);
+        free(node);
+}
+
 void    ft_pop(t_env **head, char *str)
 {
-    t_env   *temp;
-    t_env   *aux = *head;
+    t_env   *previous;
+    t_env   *current;
+
     if (*head == NULL)
         return ;
-    while (aux != NULL && aux->next != NULL)
+    current = *head;
+    if (ft_strncmp(current->name, str, ft_strlen(str)+1) == 0)
     {
-        if (ft_strncmp(aux->name, str, ft_strlen(str)+1) == 0)
-        {
-            temp = aux->next;
-            ft_swap(&aux->name, &aux->next->name);
-            ft_swap(&aux->content, &aux->next->content);
-            aux->next = aux->next->next;
-            temp->next = NULL;
-            free(temp->name);
-            free(temp->content);
-            free(temp);
-        }
-        aux = aux->next;
+        *head = (*head)->next;
+        ft_free_node(current);
+        return ;
+    }
+    previous = *head;
+    current = (*head)->next;
+    while (current && ft_strncmp(current->name, str, ft_strlen(str)+1))
+    {
+        previous = current;
+        current = current->next;
+    }
+    if (current)
+    {
+        previous->next = current->next;
+        ft_free_node(current);
     }
 }
+

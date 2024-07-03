@@ -22,6 +22,7 @@ FILES_SRC         = main.c \
 					nodes_tok.c \
 					free_all.c \
 					export.c \
+					utils_export.c \
 					unset.c \
 					exeggutor.c \
 					cd.c \

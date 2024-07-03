@@ -3,25 +3,28 @@
 void    ft_cd(t_msh *msh)
 {
 	char *content;
+	char buffer[1000];
 
-	ft_pwd();
 	if (msh->cmd->len_argv == 1)
 	{
 		content = ft_get_content(msh->env, "HOME");
 		if (!content)
 			perror("error");
-		if (chdir(content) < 0)
-			perror("error");
 	}
-	else if (!strncmp(msh->cmd->argv[1], "-", 1))
+	else if (!ft_strncmp(msh->cmd->argv[1], "-", 1))
 	{
 		content = ft_get_content(msh->env, "OLDPWD");
 		if (!content)
 			perror("error");
-		if (chdir(content) < 0)
-			perror("error");
 	}
-	else if (chdir(msh->cmd->argv[1]) < 0)
-		perror("error");
-	ft_pwd();
+	else
+		content = msh->cmd->argv[1];
+	getcwd(buffer, 1000);
+	if (chdir(content) < 0)
+		perror("chdir");
+	ft_push(&msh->export, ft_strdup("OLDPWD"), ft_strdup(buffer));
+	ft_push(&msh->env, ft_strdup("OLDPWD"), ft_strdup(buffer));
+	getcwd(buffer, 1000);
+	ft_push(&msh->export, ft_strdup("PWD"), ft_strdup(buffer));
+	ft_push(&msh->env, ft_strdup("PWD"), ft_strdup(buffer));
 }

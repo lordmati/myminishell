@@ -4,6 +4,7 @@
 # include "../libft/includes/libft.h"
 # include <fcntl.h>
 # include <limits.h>
+# include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
@@ -75,6 +76,7 @@ typedef struct s_msh
 	int		len_cmds;
 	int		number_status;
 	int		number_error;
+	int		*pids;
 	int		status;
 	char	**envp;
 }	t_msh;
@@ -118,8 +120,12 @@ void    ft_pwd();
 void    ft_env(t_msh *msh);
 void	ft_sort_expt(t_msh *msh);
 void	ft_add_expt(t_msh *msh, int i, int j, t_env **env);
+void	ft_print_expt(t_msh *msh);
+int		ft_valid_identifier(t_msh *msh);
+t_env	*new_node(int i);
 void	ft_swap(char **a, char **b);
 void	ft_export(t_msh *msh);
+void	ft_push(t_env **env, char *name, char *content);
 void    ft_pop(t_env **head, char *str);
 void    ft_unset(t_msh *data);
 void	ft_exit(t_cmd *cmd);
@@ -133,8 +139,8 @@ void    ft_exeggutor(t_msh *msh, int i);
 char    *ft_get_content(t_env *env, char *name);
 char	*ft_get_path(t_msh *msh);
 int     ft_builtins(t_msh *msh);
-int    	ft_child_process(t_msh *msh, int ret);
-int    ft_redirection(t_msh *msh, int i, int tmpout);
+void    ft_child_executor(t_msh *msh, int i, int fdpipe);
+void    ft_redirections(t_msh *msh, int i, int tmpout);
 
 
 //////////////PRINT///////////////  
