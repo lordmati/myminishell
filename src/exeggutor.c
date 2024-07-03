@@ -15,21 +15,21 @@ void ft_exeggutor(t_msh *msh, int i)
         msh->cmd->fdin = dup(tmpin); 
     while (++i < msh->len_cmds)
     {
+        ft_printf("i: %i, fd:  %d\n", i, msh->cmd->fdout);
         if (msh->cmd->error == 0)
         {
             fdpipe = ft_redirection(msh, i, tmpout);
-            ret = ft_child_process(msh, ret, i, fdpipe);
+            ret = ft_child_process(msh, ret);
         }
         msh->cmd = msh->cmd->next;
     }
-    waitpid(ret, NULL, 0);
     dup2(tmpin, 0);
     dup2(tmpout, 1);
     close(tmpin);
     close(tmpout);
 }
 
-int    ft_child_process(t_msh *msh, int ret, int i, int fdpipe)
+int    ft_child_process(t_msh *msh, int ret)
 {
     char    *path;
 
@@ -45,13 +45,13 @@ int    ft_child_process(t_msh *msh, int ret, int i, int fdpipe)
             perror("exec");
             exit(1);
         }
-        else  // Parent process
-           {
-               waitpid(ret, NULL, 0);
-               // Close the write end of the pipe in the parent
-               if (i < msh->len_cmds - 1)
-                   close(fdpipe);
-           }
+        // else  // Parent process
+        //    {
+        //        waitpid(ret, NULL, 0);
+        //        // Close the write end of the pipe in the parent
+        //        if (i < msh->len_cmds - 1)
+        //            close(fdpipe);
+        //    }
     }
     return (ret);
 }

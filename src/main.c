@@ -7,6 +7,7 @@ static void	init_struck(t_msh *msh)
 	msh->len_cmds = 0;
 	msh->number_status = 0;
 	msh->number_error = 0;
+	msh->status = 0;
 	msh->env = NULL;
 	msh->export = NULL;
 }

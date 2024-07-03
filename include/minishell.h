@@ -75,6 +75,7 @@ typedef struct s_msh
 	int		len_cmds;
 	int		number_status;
 	int		number_error;
+	int		status;
 	char	**envp;
 }	t_msh;
 ////////BORRAR*///////
@@ -132,7 +133,7 @@ void    ft_exeggutor(t_msh *msh, int i);
 char    *ft_get_content(t_env *env, char *name);
 char	*ft_get_path(t_msh *msh);
 int     ft_builtins(t_msh *msh);
-int    	ft_child_process(t_msh *msh, int ret, int i, int fdpipe);
+int    	ft_child_process(t_msh *msh, int ret);
 int    ft_redirection(t_msh *msh, int i, int tmpout);
 
 
