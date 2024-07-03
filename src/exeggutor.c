@@ -15,7 +15,6 @@ void ft_exeggutor(t_msh *msh, int i)
         msh->cmd->fdin = dup(tmpin); 
     while (++i < msh->len_cmds)
     {
-        ft_printf("i: %i, fd:  %d\n", i, msh->cmd->fdout);
         if (msh->cmd->error == 0)
         {
             fdpipe = ft_redirection(msh, i, tmpout);
