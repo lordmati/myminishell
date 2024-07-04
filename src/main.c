@@ -21,6 +21,30 @@ void	msj_error(char *str, t_msh *msh, int status)
 	return ;
 }
 
+static	void	minishell(t_msh *msh, char **envp)
+{
+	while (msh->prompt)
+	{
+		if (!ft_strlen(msh->prompt))
+		{
+			msh->prompt = readline("prueba mi conchita$ ");
+			continue ;
+		}
+		add_history(msh->prompt);
+		if (check_lexer(msh) == 1)
+		{
+			check_dollar(msh);
+			union_tok(msh, 1);
+			change_type(msh);
+			struct_cmd(msh);
+			msh->envp = envp;
+			ft_exeggutor(msh, -1);
+		}
+		free_msh(msh);
+		msh->prompt = readline("prueba mi conchita$ ");
+	}
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_msh	msh;
@@ -28,28 +52,12 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	init_struck(&msh);
+	init_signal();
 	organization_env(envp, &msh.env);
 	organization_env(envp, &msh.export);
 	msh.prompt = readline("prueba mi conchita$ ");
-	while (msh.prompt)
-	{
-		if (!ft_strlen(msh.prompt))
-		{
-			msh.prompt = readline("prueba mi conchita$ ");
-			continue ;
-		}
-		add_history(msh.prompt);
-		if (check_lexer(&msh) == 1)
-		{
-			check_dollar(&msh);
-			union_tok(&msh, 1);
-			change_type(&msh);
-			struct_cmd(&msh);
-			msh.envp = envp;
-			ft_exeggutor(&msh, -1);
-		}
-		free_msh(&msh);
-		msh.prompt = readline("prueba mi conchita$ ");
-	}
+	minishell(&msh, envp);
+	if (!msh.prompt)
+		signal_d(&msh);
 	return (0);
 }

@@ -12,6 +12,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/wait.h>
+# include <errno.h>
 # define ERROR_PIPES "bash: syntax error near unexpected token `|'"
 # define ERROR_NEWLINE "bash: syntax error near unexpected token `newline'"
 # define ERROR_DOUBLE_QUOTES "bash: expected to close the double quote"
@@ -81,7 +82,10 @@ typedef struct s_msh
 	char	**envp;
 }	t_msh;
 ////////BORRAR*///////
-void	print_token(t_tok *tok);
+void	init_signal(void);
+void	signal_d(t_msh *msh);
+void	signal_c(int signal);
+void	heredoc_handler(int signum);
 ///////ENVP////////
 void	organization_env(char **envp, t_env **env);
 ////////FREE///////

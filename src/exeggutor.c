@@ -19,7 +19,8 @@ void	ft_exeggutor(t_msh *msh, int i)
 		ft_child_executor(msh, i, fdpipe[1]);
 		msh->cmd = msh->cmd->next;
 	}
-	waitpid(msh->pids[msh->len_cmds - 1], NULL, 0);
+	waitpid(msh->pids[msh->len_cmds - 1], &msh->number_status, 0);
+	msh->number_status = WEXITSTATUS(msh->number_status);
 	ft_kill_children(msh->pids, msh->len_cmds - 1);
 	dup2(tmpin, 0);
 	dup2(tmpout, 1);
@@ -65,7 +66,7 @@ void	ft_child_executor(t_msh *msh, int i, int fdpipe)
 				return ((void)perror("path"));
 			execve(path, msh->cmd->argv, msh->envp);
 			perror("exec");
-			exit(1);
+			exit(errno);
 		}
 		else
 		{

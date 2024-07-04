@@ -46,12 +46,19 @@ static void	call_get_next_line(t_tok *tok, t_msh *msh)
 	char	*line;
 	int		fd;
 
-	line = readline("Heredoc > ");
+	line = ft_strdup("");
 	fd = open(".heredoc.tmp", O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
-		printf("Error al crear fd\n");
+		msj_error("Error when creating the fd\n", msh, 2);
 	while (line)
 	{
+		free(line);
+		line = readline("Heredoc > ");
+		if (!line)
+		{
+			printf("bash warningno se que\n");
+			break ;
+		}
 		if (ft_strncmp(line, tok->content, ft_strlen(tok->content) + 1) == 0)
 		{
 			free(line);
@@ -59,12 +66,8 @@ static void	call_get_next_line(t_tok *tok, t_msh *msh)
 		}
 		expand_hd(line, msh);
 		ft_putendl_fd(line, fd);
-		free(line);
-		line = readline("Heredoc > ");
 	}
 	close(fd);
-	msh->cmd->fdin = open(".heredoc.tmp", O_RDONLY);
-	unlink(".heredoc.tmp");
 }
 
 t_tok	*save_infile(t_tok *tok, t_msh *msh)
@@ -90,12 +93,24 @@ t_tok	*save_infile(t_tok *tok, t_msh *msh)
 t_tok	*save_heredoc(t_tok *tok, t_msh *msh)
 {
 	t_cmd	*last;
+	int		pid;
 
 	last = return_last(msh->cmd);
 	tok = tok->next;
 	if (last->fdin >= 3)
 		close (last->fdin);
-	call_get_next_line(tok, msh);
+	pid = fork();
+	if (pid == 0)
+	{
+		signal(SIGINT, heredoc_handler);
+		call_get_next_line(tok, msh);
+		exit(0);
+	}
 	tok = tok->next;
+	signal(SIGINT, SIG_IGN);
+	waitpid(pid, NULL, 0);
+	msh->cmd->fdin = open(".heredoc.tmp", O_RDONLY);
+	unlink(".heredoc.tmp");
+	signal(SIGINT, signal_c);
 	return (tok);
 }
