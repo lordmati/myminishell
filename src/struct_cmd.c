@@ -7,15 +7,15 @@ static t_tok	*save_redirection(t_tok *tok, t_msh *msh)
 		if (tok->type == T_REDIRECTION_OUTFILE)
 			tok = save_trunc(tok, msh->cmd);
 		else if (tok->type == T_APPEND)
-		 	tok = save_append(tok, msh->cmd);
+			tok = save_append(tok, msh->cmd);
 		else if (tok->type == T_REDIRECTION_INFILE)
-		 	tok = save_infile(tok, msh);
+			tok = save_infile(tok, msh);
 		else if (tok->type == T_HEREDOC)
-		 	tok = save_heredoc(tok, msh);
+			tok = save_heredoc(tok, msh);
 		else if (tok->type == T_WORD)
-			tok =tok->next;
+			tok = tok->next;
 	}
-	return(tok);
+	return (tok);
 }
 
 static void	add_back_cmd(t_cmd **cmd, t_cmd *new)
@@ -56,7 +56,7 @@ static t_cmd	*new_node_cmd(int i, t_tok *tok)
 	}
 	cmd->error = 0;
 	cmd->fdin = -1;
-	cmd->fdout =  -1;
+	cmd->fdout = -1;
 	cmd->argv[i] = NULL;
 	cmd->next = NULL;
 	return (cmd);
@@ -70,7 +70,7 @@ static t_tok	*create_node_cmd(t_tok *tok, t_msh *msh)
 
 	aux = tok;
 	msh->len_cmds += 1;
-	i = calculate_matrix(msh, msh->tok);
+	i = calculate_matrix(msh->tok);
 	if (msh->cmd)
 	{
 		new = new_node_cmd(i, tok);
@@ -78,7 +78,7 @@ static t_tok	*create_node_cmd(t_tok *tok, t_msh *msh)
 	}
 	else
 		msh->cmd = new_node_cmd(i, tok);
-	aux = save_redirection(aux,msh);
+	aux = save_redirection(aux, msh);
 	return (aux);
 }
 

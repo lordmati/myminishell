@@ -1,18 +1,27 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   built_ins.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: pgonzal2 <pgonzal2@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/24 17:53:17 by pgonzal2          #+#    #+#             */
-/*   Updated: 2024/07/03 16:34:48 by pgonzal2         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 
-void    ft_echo(t_cmd *cmd)
+int	ft_builtins(t_msh *msh)
+{
+	if (msh->cmd->argv[0] == NULL)
+		return (1);
+	if (!ft_strncmp(msh->cmd->argv[0], "echo\0", 5))
+		return (ft_echo(msh->cmd), 1);
+	else if (!ft_strncmp(msh->cmd->argv[0], "cd\0", 3))
+		return (ft_cd(msh), 1);
+	else if (!ft_strncmp(msh->cmd->argv[0], "export\0", 7))
+		return (ft_export(msh), 1);
+	else if (!ft_strncmp(msh->cmd->argv[0], "unset\0", 6))
+		return (ft_unset(msh), 1);
+	else if (!ft_strncmp(msh->cmd->argv[0], "pwd\0", 4))
+		return (ft_pwd(), 1);
+	else if (!ft_strncmp(msh->cmd->argv[0], "env\0", 4))
+		return (ft_env(msh), 1);
+	else if (!ft_strncmp(msh->cmd->argv[0], "exit\0", 5))
+		ft_exit(msh->cmd);
+	return (0);
+}
+
+void	ft_echo(t_cmd *cmd)
 {
 	int	i;
 	int	n_flag;
@@ -24,23 +33,23 @@ void    ft_echo(t_cmd *cmd)
 		n_flag = 1;
 		i++;
 	}
-	while(cmd->argv[i])
+	while (cmd->argv[i])
 	{
 		ft_putstr_fd(cmd->argv[i], 1);
-		if(i < cmd->len_argv - 1)
+		if (i < cmd->len_argv - 1)
 			write(1, " ", 1);
 		i++;
 	}
-	if(!n_flag)
+	if (!n_flag)
 		write(1, "\n", 1);
 }
 
-void	ft_pwd()
+void	ft_pwd(void)
 {
-	char *cwd;
+	char	*cwd;
 
 	cwd = getcwd(NULL, 0);
-	if(!cwd)
+	if (!cwd)
 		perror("error");
 	printf("%s\n", cwd);
 	free(cwd);
@@ -48,13 +57,13 @@ void	ft_pwd()
 
 void	ft_env(t_msh *msh)
 {
-	t_env *env;
-	
+	t_env	*env;
+
 	env = msh->env;
-	while(env)
+	while (env)
 	{
-		ft_printf("%s=",env->name);
-		ft_printf("%s\n",env->content);
+		ft_printf("%s=", env->name);
+		ft_printf("%s\n", env->content);
 		env = env->next;
 	}
 }

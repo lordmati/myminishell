@@ -1,7 +1,8 @@
-# include "minishell.h"
+#include "minishell.h"
+
 void	change_type(t_msh *msh)
 {
-	t_tok *aux;
+	t_tok	*aux;
 
 	aux = msh->tok;
 	while (aux)
@@ -12,9 +13,9 @@ void	change_type(t_msh *msh)
 	}
 }
 
-static t_tok *delete_next_node(t_tok *tok)
+static t_tok	*delete_next_node(t_tok *tok)
 {
-	t_tok *aux;
+	t_tok	*aux;
 
 	aux = NULL;
 	if (tok->next)
@@ -34,7 +35,7 @@ void	union_tok(t_msh *msh, int flag_next)
 	char	*content;
 
 	aux = msh->tok;
-	while(aux)
+	while (aux)
 	{
 		if (aux->flag == 1 && aux->next != NULL && flag_next == 1)
 		{
@@ -42,7 +43,7 @@ void	union_tok(t_msh *msh, int flag_next)
 			flag_next = aux->next->flag;
 			content = ft_strdup(aux->content);
 			free(aux->content);
-			aux->content = ft_strjoin(content,content_next);
+			aux->content = ft_strjoin(content, content_next);
 			free(content);
 			free(content_next);
 			aux->next = delete_next_node(aux->next);

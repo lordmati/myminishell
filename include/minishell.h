@@ -86,6 +86,7 @@ void	print_token(t_tok *tok);
 void	organization_env(char **envp, t_env **env);
 ////////FREE///////
 void	free_msh(t_msh *msh);
+void	ft_kill_children(int *pids, int len);
 ///////UTILS_PARSER/////////
 void	msj_error(char *str, t_msh *msh, int status);
 //////UNION TOK//////////
@@ -105,7 +106,7 @@ void	add_back_tok(t_tok **tok, t_tok *aux);
 void	tok_list(t_tok **tok,int type,char *content, int flag);
 //////////STRUCT CMD///////////////
 void	struct_cmd(t_msh *msh);
-int		calculate_matrix(t_msh *msh, t_tok *tok);
+int		calculate_matrix(t_tok *tok);
 t_cmd	*return_last(t_cmd *cmd);
 //////////SAVE OUTFILE/////////////
 t_tok	*save_trunc(t_tok *aux, t_cmd *cmd);

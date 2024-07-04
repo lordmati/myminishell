@@ -1,9 +1,9 @@
 #include "minishell.h"
 
-void    ft_cd(t_msh *msh)
+void	ft_cd(t_msh *msh)
 {
-	char *content;
-	char buffer[1000];
+	char	*content;
+	char	buffer[1000];
 
 	if (msh->cmd->len_argv == 1)
 	{

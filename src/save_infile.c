@@ -4,7 +4,7 @@ static char	*check_expand_hd(t_msh *msh, char *str)
 {
 	char	*aux;
 	char	*line;
-	int 	i;
+	int		i;
 
 	i = 0;
 	line = ft_strdup("");
@@ -67,10 +67,9 @@ static void	call_get_next_line(t_tok *tok, t_msh *msh)
 	unlink(".heredoc.tmp");
 }
 
-
 t_tok	*save_infile(t_tok *tok, t_msh *msh)
 {
-	t_cmd *last;
+	t_cmd	*last;
 
 	last = return_last(msh->cmd);
 	tok = tok->next;
@@ -90,7 +89,7 @@ t_tok	*save_infile(t_tok *tok, t_msh *msh)
 
 t_tok	*save_heredoc(t_tok *tok, t_msh *msh)
 {
-	t_cmd *last;
+	t_cmd	*last;
 
 	last = return_last(msh->cmd);
 	tok = tok->next;

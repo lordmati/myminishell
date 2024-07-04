@@ -1,19 +1,28 @@
 #include "minishell.h"
 
-int		ft_valid_identifier(t_msh *msh)
+void	ft_swap(char **a, char **b)
+{
+	char	*tmp;
+
+	tmp = *a;
+	*a = *b;
+	*b = tmp;
+}
+
+int	ft_valid_identifier(t_msh *msh)
 {
 	char	**str;
-	int 	i;
+	int		i;
 	int		j;
 
 	i = 0;
 	str = msh->cmd->argv;
-	while(str[i])
+	while (str[i])
 	{
 		j = 0;
-		while(str[i][j])
+		while (str[i][j])
 		{
-			if(ft_isdigit(str[i][0]) || !ft_isalnum(str[i][j]))
+			if (ft_isdigit(str[i][0]) || !ft_isalnum(str[i][j]))
 			{
 				printf("export: %s: not a valid identifier\n", str[i]);
 				return (0);
@@ -27,16 +36,16 @@ int		ft_valid_identifier(t_msh *msh)
 
 void	ft_print_expt(t_msh *msh)
 {
-	t_env *env;
+	t_env	*env;
 
 	env = msh->export;
-	while(env)
+	while (env)
 	{
 		if (env->content && ft_strlen(env->content) == 0)
-			ft_printf("declare -x %s",env->name);
+			ft_printf("declare -x %s", env->name);
 		else
-			ft_printf("declare -x %s=",env->name);
-		ft_printf("%s\n",env->content);
+			ft_printf("declare -x %s=", env->name);
+		ft_printf("%s\n", env->content);
 		env = env->next;
 	}
 }

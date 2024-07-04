@@ -33,6 +33,7 @@ void	add_back_tok(t_tok **tok, t_tok *aux)
 void	tok_list(t_tok **tok, int type, char *content, int flag)
 {
 	t_tok	*aux;
+
 	if (!*tok)
 		*tok = new_node_tok(type, content, flag);
 	else
@@ -42,4 +43,3 @@ void	tok_list(t_tok **tok, int type, char *content, int flag)
 	}
 	free(content);
 }
-

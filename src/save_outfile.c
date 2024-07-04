@@ -2,7 +2,7 @@
 
 t_tok	*save_append(t_tok *aux, t_cmd *cmd)
 {
-	t_cmd *last;
+	t_cmd	*last;
 
 	last = return_last(cmd);
 	aux = aux->next;
@@ -16,7 +16,7 @@ t_tok	*save_append(t_tok *aux, t_cmd *cmd)
 
 t_tok	*save_trunc(t_tok *aux, t_cmd *cmd)
 {
-	t_cmd *last;
+	t_cmd	*last;
 
 	last = return_last(cmd);
 	aux = aux->next;

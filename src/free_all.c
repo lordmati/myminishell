@@ -1,5 +1,12 @@
 #include "minishell.h"
 
+void	ft_kill_children(int *pids, int len)
+{
+	while (len)
+		kill(pids[--len], SIGKILL);
+	free(pids);
+}
+
 static void	free_token(t_tok **token)
 {
 	t_tok	*aux;

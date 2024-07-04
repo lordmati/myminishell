@@ -44,4 +44,3 @@ int	save_pipe(t_msh *msh)
 	tok_list(&msh->tok, T_PIPE, content, 0);
 	return (1);
 }
-
