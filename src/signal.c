@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+extern int g_sig;
+
 void	heredoc_handler(int signum)
 {
 	(void)signum;
@@ -26,9 +28,17 @@ void	signal_c(int signal)
 	rl_redisplay();
 }
 
+static void	signal_quit()
+{
+	write(2, "Quit (core dumped)\n", 20);
+}
+
 void init_signal(void)
 {
 	signal(SIGTSTP, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
+	if (g_sig == 0)
+		signal(SIGQUIT, SIG_IGN);
+	else
+		signal(SIGQUIT, signal_quit);
 	signal(SIGINT, signal_c);
 }

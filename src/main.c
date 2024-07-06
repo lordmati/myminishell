@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+int	g_sig;
+
 static void	init_struck(t_msh *msh)
 {
 	msh->cmd = NULL;
@@ -33,12 +35,16 @@ static	void	minishell(t_msh *msh, char **envp)
 		add_history(msh->prompt);
 		if (check_lexer(msh) == 1)
 		{
+			g_sig = 1;
+			init_signal();
 			check_dollar(msh);
 			union_tok(msh, 1);
 			change_type(msh);
 			struct_cmd(msh);
 			msh->envp = envp;
 			ft_exeggutor(msh, -1);
+			g_sig = 0;
+			init_signal();
 		}
 		free_msh(msh);
 		msh->prompt = readline("prueba mi conchita$ ");
@@ -47,6 +53,7 @@ static	void	minishell(t_msh *msh, char **envp)
 
 int	main(int argc, char **argv, char **envp)
 {
+	g_sig = 0;
 	t_msh	msh;
 
 	(void)argc;

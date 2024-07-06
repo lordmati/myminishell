@@ -7,7 +7,7 @@ void	ft_kill_children(int *pids, int len)
 	free(pids);
 }
 
-static void	free_token(t_tok **token)
+void	free_token(t_tok **token)
 {
 	t_tok	*aux;
 
@@ -33,7 +33,7 @@ static void	free_matrix(char **matrix)
 	matrix = NULL;
 }
 
-static void	free_cmd(t_cmd **cmd)
+void	free_cmd(t_cmd **cmd)
 {
 	t_cmd	*aux;
 

@@ -17,6 +17,11 @@ void	ft_exeggutor(t_msh *msh, int i)
 	{
 		ft_redirections(msh, i, tmpout);
 		ft_child_executor(msh, i, fdpipe[1]);
+		// if(fdpipe[0]!=0)
+		// 	close(fdpipe[0]);
+		// if(fdpipe[1]!=1)
+		// 	close(fdpipe[1]);
+
 		msh->cmd = msh->cmd->next;
 	}
 	waitpid(msh->pids[msh->len_cmds - 1], &msh->number_status, 0);
@@ -68,7 +73,7 @@ void	ft_child_executor(t_msh *msh, int i, int fdpipe)
 			perror("exec");
 			exit(errno);
 		}
-		else
+		else    //da un error mas 
 		{
 			if (i < msh->len_cmds - 1)
 				close(fdpipe);

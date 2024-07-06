@@ -90,6 +90,7 @@ void	heredoc_handler(int signum);
 void	organization_env(char **envp, t_env **env);
 ////////FREE///////
 void	free_msh(t_msh *msh);
+void	free_cmd(t_cmd **cmd);
 void	ft_kill_children(int *pids, int len);
 ///////UTILS_PARSER/////////
 void	msj_error(char *str, t_msh *msh, int status);
