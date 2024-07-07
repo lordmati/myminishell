@@ -5,24 +5,26 @@ void	ft_exeggutor(t_msh *msh, int i)
 	int	tmpin;
 	int	tmpout;
 	int	fdpipe[2];
+	t_cmd	*cmd;
 
-	if (!msh->cmd)
+	cmd = msh->cmd;
+	if (!cmd)
 		return ;
 	msh->pids = malloc(sizeof(int) * msh->len_cmds);
 	tmpin = dup(0);
 	tmpout = dup(1);
-	if (msh->cmd->fdin == -1)
-		msh->cmd->fdin = dup(tmpin);
+	if (cmd->fdin == -1)
+		cmd->fdin = dup(tmpin);
 	while (++i < msh->len_cmds)
 	{
-		ft_redirections(msh, i, tmpout);
-		ft_child_executor(msh, i, fdpipe[1]);
-		// if(fdpipe[0]!=0)
-		// 	close(fdpipe[0]);
-		// if(fdpipe[1]!=1)
-		// 	close(fdpipe[1]);
-
-		msh->cmd = msh->cmd->next;
+		if (!cmd->error)
+		{
+			ft_redirections(msh, i, tmpout, cmd);
+			ft_child_executor(msh, i, fdpipe[1], cmd);	
+		}
+		else
+			msh->len_cmds--;
+		cmd = cmd->next;
 	}
 	waitpid(msh->pids[msh->len_cmds - 1], &msh->number_status, 0);
 	msh->number_status = WEXITSTATUS(msh->number_status);
@@ -33,31 +35,31 @@ void	ft_exeggutor(t_msh *msh, int i)
 	close(tmpout);
 }
 
-void	ft_redirections(t_msh *msh, int i, int tmpout)
+void	ft_redirections(t_msh *msh, int i, int tmpout, t_cmd *cmd)
 {
 	int	fdpipe[2];
 
-	dup2(msh->cmd->fdin, 0);
-	close(msh->cmd->fdin);
+	dup2(cmd->fdin, 0);
+	close(cmd->fdin);
 	if (i == msh->len_cmds - 1)
 	{
-		if (msh->cmd->fdout == -1)
-			msh->cmd->fdout = dup(tmpout);
+		if (cmd->fdout == -1)
+			cmd->fdout = dup(tmpout);
 	}
 	else
 	{
 		pipe(fdpipe);
-		msh->cmd->next->fdin = fdpipe[0];
-		if (msh->cmd->fdout == -1)
-			msh->cmd->fdout = fdpipe[1];
+		cmd->next->fdin = fdpipe[0];
+		if (cmd->fdout == -1)
+			cmd->fdout = fdpipe[1];
 		else
 			close(fdpipe[1]);
 	}
-	dup2(msh->cmd->fdout, 1);
-	close(msh->cmd->fdout);
+	dup2(cmd->fdout, 1);
+	close(cmd->fdout);
 }
 
-void	ft_child_executor(t_msh *msh, int i, int fdpipe)
+void	ft_child_executor(t_msh *msh, int i, int fdpipe, t_cmd *cmd)
 {
 	char	*path;
 
@@ -66,10 +68,10 @@ void	ft_child_executor(t_msh *msh, int i, int fdpipe)
 		msh->pids[i] = fork();
 		if (msh->pids[i] == 0)
 		{
-			path = ft_get_path(msh);
+			path = ft_get_path(msh, cmd);
 			if (!path)
 				return ((void)perror("path"));
-			execve(path, msh->cmd->argv, msh->envp);
+			execve(path, cmd->argv, msh->envp);
 			perror("exec");
 			exit(errno);
 		}
@@ -92,7 +94,7 @@ char	*ft_get_content(t_env *env, char *name)
 	return (NULL);
 }
 
-char	*ft_get_path(t_msh *msh)
+char	*ft_get_path(t_msh *msh, t_cmd *cmd)
 {
 	char	**content_splited;
 	int		j;
@@ -100,8 +102,8 @@ char	*ft_get_path(t_msh *msh)
 	char	*content;
 
 	j = -1;
-	if (access(msh->cmd->argv[0], X_OK) == 0)
-		return (msh->cmd->argv[0]);
+	if (access(cmd->argv[0], X_OK) == 0)
+		return (cmd->argv[0]);
 	content = ft_get_content(msh->env, "PATH");
 	if (!content)
 		return (NULL);
@@ -109,7 +111,7 @@ char	*ft_get_path(t_msh *msh)
 	while (content_splited[++j] != NULL)
 	{
 		path = ft_strjoin(content_splited[j], "/");
-		path = ft_strjoin(path, msh->cmd->argv[0]);
+		path = ft_strjoin(path, cmd->argv[0]);
 		if (access(path, X_OK) == 0)
 			return (path);
 	}

@@ -37,7 +37,7 @@ void	free_cmd(t_cmd **cmd)
 {
 	t_cmd	*aux;
 
-	if (!*cmd || !cmd)
+	if (!cmd || !*cmd)
 		return ;
 	while (*cmd)
 	{

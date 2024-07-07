@@ -1,5 +1,19 @@
 #include "minishell.h"
 
+void	ft_free_env(t_env **env)
+{
+	t_env *node;
+	t_env *tmp;
+
+	node = *env;
+	while (node)
+	{
+		tmp = node;
+		node = node->next;
+		ft_free_node(tmp);
+	}
+}
+
 void	ft_swap(char **a, char **b)
 {
 	char	*tmp;

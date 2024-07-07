@@ -16,7 +16,7 @@ void	ft_unset(t_msh *msh)
 	return ;
 }
 
-static void	ft_free_node(t_env *node)
+void	ft_free_node(t_env *node)
 {
 	free(node->name);
 	free(node->content);

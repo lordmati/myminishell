@@ -12,6 +12,8 @@ void	heredoc_handler(int signum)
 void	signal_d(t_msh *msh)
 {
 	free_msh(msh);
+	ft_free_env(&msh->env);
+	ft_free_env(&msh->export);
 	printf("exit\n");
 	exit(msh->status);
 }

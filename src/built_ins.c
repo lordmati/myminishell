@@ -2,6 +2,7 @@
 
 int	ft_builtins(t_msh *msh)
 {
+	//msh->len_cmds--;
 	if (msh->cmd->argv[0] == NULL)
 		return (1);
 	if (!ft_strncmp(msh->cmd->argv[0], "echo\0", 5))
@@ -17,7 +18,7 @@ int	ft_builtins(t_msh *msh)
 	else if (!ft_strncmp(msh->cmd->argv[0], "env\0", 4))
 		return (ft_env(msh), 1);
 	else if (!ft_strncmp(msh->cmd->argv[0], "exit\0", 5))
-		ft_exit(msh->cmd);
+		return (ft_exit(msh->cmd), 1);
 	return (0);
 }
 
@@ -51,7 +52,7 @@ void	ft_pwd(void)
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 		perror("error");
-	printf("%s\n", cwd);
+	dprintf(2, "%s\n", cwd);
 	free(cwd);
 }
 

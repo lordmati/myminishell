@@ -91,6 +91,8 @@ void	organization_env(char **envp, t_env **env);
 ////////FREE///////
 void	free_msh(t_msh *msh);
 void	free_cmd(t_cmd **cmd);
+void	ft_free_node(t_env *node);
+void	ft_free_env(t_env **env);
 void	ft_kill_children(int *pids, int len);
 ///////UTILS_PARSER/////////
 void	msj_error(char *str, t_msh *msh, int status);
@@ -143,10 +145,10 @@ char	*check_env(char *str, int *i, t_msh *msh);
 ////////////////exeggutor/////////////////
 void    ft_exeggutor(t_msh *msh, int i);
 char    *ft_get_content(t_env *env, char *name);
-char	*ft_get_path(t_msh *msh);
+char	*ft_get_path(t_msh *msh, t_cmd *cmd);
 int     ft_builtins(t_msh *msh);
-void    ft_child_executor(t_msh *msh, int i, int fdpipe);
-void    ft_redirections(t_msh *msh, int i, int tmpout);
+void    ft_child_executor(t_msh *msh, int i, int fdpipe, t_cmd *cmd);
+void    ft_redirections(t_msh *msh, int i, int tmpout, t_cmd *cmd);
 
 
 //////////////PRINT///////////////  

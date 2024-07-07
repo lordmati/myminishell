@@ -5,13 +5,13 @@ void	ft_cd(t_msh *msh)
 	char	*content;
 	char	buffer[1000];
 
-	if (msh->cmd->len_argv == 1)
+	if (msh->cmd->len_argv == 1 || !ft_strncmp(msh->cmd->argv[1], "~\0", 2))
 	{
 		content = ft_get_content(msh->env, "HOME");
 		if (!content)
 			perror("error");
 	}
-	else if (!ft_strncmp(msh->cmd->argv[1], "-", 1))
+	else if (!ft_strncmp(msh->cmd->argv[1], "-\0", 2))
 	{
 		content = ft_get_content(msh->env, "OLDPWD");
 		if (!content)
