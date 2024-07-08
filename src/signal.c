@@ -21,13 +21,22 @@ void	signal_d(t_msh *msh)
 void	signal_c(int signal)
 {
 	(void)signal;
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-	write(1, "\n", 1);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
+	if (g_sig == 1)
+	{
+		write(1, "\033[K\n", 5);
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+	else if (g_sig == 0)
+	{
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+		write(1, "\033[K\n", 5);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
 }
 
 static void	signal_quit()

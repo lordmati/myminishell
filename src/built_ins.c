@@ -1,24 +1,24 @@
 #include "minishell.h"
 
-int	ft_builtins(t_msh *msh)
+int	ft_builtins(t_msh *msh, t_cmd *cmd)
 {
 	//msh->len_cmds--;
-	if (msh->cmd->argv[0] == NULL)
+	if (cmd->argv[0] == NULL)
 		return (1);
-	if (!ft_strncmp(msh->cmd->argv[0], "echo\0", 5))
-		return (ft_echo(msh->cmd), 1);
-	else if (!ft_strncmp(msh->cmd->argv[0], "cd\0", 3))
-		return (ft_cd(msh), 1);
-	else if (!ft_strncmp(msh->cmd->argv[0], "export\0", 7))
-		return (ft_export(msh), 1);
-	else if (!ft_strncmp(msh->cmd->argv[0], "unset\0", 6))
-		return (ft_unset(msh), 1);
-	else if (!ft_strncmp(msh->cmd->argv[0], "pwd\0", 4))
+	if (!ft_strncmp(cmd->argv[0], "echo\0", 5))
+		return (ft_echo(cmd), 1);
+	else if (!ft_strncmp(cmd->argv[0], "cd\0", 3))
+		return (ft_cd(msh, cmd), 1);
+	else if (!ft_strncmp(cmd->argv[0], "export\0", 7))
+		return (ft_export(msh, cmd), 1);
+	else if (!ft_strncmp(cmd->argv[0], "unset\0", 6))
+		return (ft_unset(msh, cmd), 1);
+	else if (!ft_strncmp(cmd->argv[0], "pwd\0", 4))
 		return (ft_pwd(), 1);
-	else if (!ft_strncmp(msh->cmd->argv[0], "env\0", 4))
+	else if (!ft_strncmp(cmd->argv[0], "env\0", 4))
 		return (ft_env(msh), 1);
-	else if (!ft_strncmp(msh->cmd->argv[0], "exit\0", 5))
-		return (ft_exit(msh->cmd), 1);
+	else if (!ft_strncmp(cmd->argv[0], "exit\0", 5))
+		return (ft_exit(cmd), 1);
 	return (0);
 }
 
@@ -29,6 +29,7 @@ void	ft_echo(t_cmd *cmd)
 
 	i = 1;
 	n_flag = 0;
+	dprintf(2, "esto es echo\n");
 	while (cmd->argv[i] && (!ft_strncmp(cmd->argv[i], "-n", 3)))
 	{
 		n_flag = 1;
@@ -52,7 +53,7 @@ void	ft_pwd(void)
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 		perror("error");
-	dprintf(2, "%s\n", cwd);
+	printf("%s\n", cwd);
 	free(cwd);
 }
 

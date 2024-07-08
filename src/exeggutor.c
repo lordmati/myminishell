@@ -1,11 +1,32 @@
 #include "minishell.h"
 
+static void	ft_child_executor2(t_msh *msh, int i, int fdpipe, t_cmd *cmd)
+{
+	char	*path;
+
+	msh->pids[i] = fork();
+	if (msh->pids[i] == 0)
+	{
+		path = ft_get_path(msh, cmd);
+		if (!path)
+			return ((void)perror("path"));
+		execve(path, cmd->argv, msh->envp);
+		perror("exec");
+		exit(errno);
+	}
+	else    //da un error mas 
+	{
+		if (i < msh->len_cmds - 1)
+			close(fdpipe);
+	}
+}
 void	ft_exeggutor(t_msh *msh, int i)
 {
 	int	tmpin;
 	int	tmpout;
 	int	fdpipe[2];
 	t_cmd	*cmd;
+	//char 	*path;
 
 	cmd = msh->cmd;
 	if (!cmd)
@@ -15,16 +36,32 @@ void	ft_exeggutor(t_msh *msh, int i)
 	tmpout = dup(1);
 	if (cmd->fdin == -1)
 		cmd->fdin = dup(tmpin);
-	while (++i < msh->len_cmds)
+	if (msh->len_cmds == 1)
 	{
-		if (!cmd->error)
+		if (!ft_builtins(msh, cmd))
 		{
-			ft_redirections(msh, i, tmpout, cmd);
-			ft_child_executor(msh, i, fdpipe[1], cmd);	
+			ft_redirections(msh, ++i, tmpout, cmd);
+			// path = ft_get_path(msh, cmd);
+			// if (!path)
+			// 	return ((void)perror("path"));
+			// execve(path, cmd->argv, msh->envp);
+			// perror("exec");
+			ft_child_executor2(msh, i, fdpipe[1], cmd);
 		}
-		else
-			msh->len_cmds--;
-		cmd = cmd->next;
+	}
+	else
+	{
+		while (++i < msh->len_cmds)
+		{
+			if (!cmd->error)
+			{
+				ft_redirections(msh, i, tmpout, cmd);
+				ft_child_executor(msh, i, fdpipe[1], cmd);	
+			}
+			else
+				msh->len_cmds--;
+			cmd = cmd->next;
+		}
 	}
 	waitpid(msh->pids[msh->len_cmds - 1], &msh->number_status, 0);
 	msh->number_status = WEXITSTATUS(msh->number_status);
@@ -41,7 +78,7 @@ void	ft_redirections(t_msh *msh, int i, int tmpout, t_cmd *cmd)
 
 	dup2(cmd->fdin, 0);
 	close(cmd->fdin);
-	if (i == msh->len_cmds - 1)
+	if (i == (msh->len_cmds - 1))
 	{
 		if (cmd->fdout == -1)
 			cmd->fdout = dup(tmpout);
@@ -63,10 +100,10 @@ void	ft_child_executor(t_msh *msh, int i, int fdpipe, t_cmd *cmd)
 {
 	char	*path;
 
-	if (!ft_builtins(msh))
+	msh->pids[i] = fork();
+	if (msh->pids[i] == 0)
 	{
-		msh->pids[i] = fork();
-		if (msh->pids[i] == 0)
+		if (!ft_builtins(msh,cmd))
 		{
 			path = ft_get_path(msh, cmd);
 			if (!path)
@@ -75,13 +112,16 @@ void	ft_child_executor(t_msh *msh, int i, int fdpipe, t_cmd *cmd)
 			perror("exec");
 			exit(errno);
 		}
-		else    //da un error mas 
-		{
-			if (i < msh->len_cmds - 1)
-				close(fdpipe);
-		}
+		else
+			exit (msh->status);
+	}
+	else    //da un error mas 
+	{
+		if (i < msh->len_cmds - 1)
+			close(fdpipe);
 	}
 }
+
 
 char	*ft_get_content(t_env *env, char *name)
 {

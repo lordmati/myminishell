@@ -50,13 +50,14 @@ void	ft_push(t_env **env, char *name, char *content)
 	ft_addback(env, node);
 }
 
-void	ft_add_expt(t_msh *msh, int i, int j, t_env **env)
+void	ft_add_expt(int i, t_cmd *cmd ,t_env **env)
 {
 	char	**str;
 	t_env	*aux;
+	int		j;
 
 	aux = *env;
-	str = msh->cmd->argv;
+	str = cmd->argv;
 	while (str[++i])
 	{
 		j = 0;
@@ -78,20 +79,20 @@ void	ft_add_expt(t_msh *msh, int i, int j, t_env **env)
 	}
 }
 
-void	ft_export(t_msh *msh)
+void	ft_export(t_msh *msh, t_cmd *cmd)
 {
 	int	i;
 
 	i = -1;
-	if (msh->cmd->len_argv > 1)
+	if (cmd->len_argv > 1)
 	{
 		if (!ft_valid_identifier(msh))
 			return ;
-		ft_add_expt(msh, 0, 0, &msh->export);
-		while (msh->cmd->argv[++i])
+		ft_add_expt(0, cmd, &msh->export);
+		while (cmd->argv[++i])
 		{
-			if (ft_strchr(msh->cmd->argv[i], '='))
-				ft_add_expt(msh, 0, 0, &msh->env);
+			if (ft_strchr(cmd->argv[i], '='))
+				ft_add_expt(0, cmd, &msh->env);
 		}
 	}
 	else

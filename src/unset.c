@@ -1,14 +1,14 @@
 #include "minishell.h"
 
-void	ft_unset(t_msh *msh)
+void	ft_unset(t_msh *msh, t_cmd *cmd)
 {
 	char	*str;
 	int		i;
 
 	i = 0;
-	while (msh->cmd->argv[i])
+	while (cmd->argv[i])
 	{
-		str = msh->cmd->argv[i];
+		str = cmd->argv[i];
 		ft_pop(&msh->env, str);
 		ft_pop(&msh->export, str);
 		i++;

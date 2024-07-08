@@ -123,19 +123,19 @@ t_tok	*save_infile(t_tok *tok, t_msh *msh);
 t_tok	*save_heredoc(t_tok *tok, t_msh *msh);
 //////////////BUILT-INS//////////////
 void    ft_echo(t_cmd *cmd);
-void	ft_cd(t_msh *msh);
+void	ft_cd(t_msh *msh, t_cmd *cmd);
 void    ft_pwd();
 void    ft_env(t_msh *msh);
 void	ft_sort_expt(t_msh *msh);
-void	ft_add_expt(t_msh *msh, int i, int j, t_env **env);
+void	ft_add_expt(int i, t_cmd *cmd, t_env **env);
 void	ft_print_expt(t_msh *msh);
 int		ft_valid_identifier(t_msh *msh);
 t_env	*new_node(int i);
 void	ft_swap(char **a, char **b);
-void	ft_export(t_msh *msh);
+void	ft_export(t_msh *msh, t_cmd *cmd);
 void	ft_push(t_env **env, char *name, char *content);
 void    ft_pop(t_env **head, char *str);
-void    ft_unset(t_msh *data);
+void    ft_unset(t_msh *data, t_cmd *cmd);
 void	ft_exit(t_cmd *cmd);
 /////////////EXPAND_HD/////////////////
 char	*check_word(char *line, int *i);
@@ -146,7 +146,7 @@ char	*check_env(char *str, int *i, t_msh *msh);
 void    ft_exeggutor(t_msh *msh, int i);
 char    *ft_get_content(t_env *env, char *name);
 char	*ft_get_path(t_msh *msh, t_cmd *cmd);
-int     ft_builtins(t_msh *msh);
+int     ft_builtins(t_msh *msh, t_cmd *cmd);
 void    ft_child_executor(t_msh *msh, int i, int fdpipe, t_cmd *cmd);
 void    ft_redirections(t_msh *msh, int i, int tmpout, t_cmd *cmd);
 

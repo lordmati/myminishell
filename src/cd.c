@@ -1,24 +1,24 @@
 #include "minishell.h"
 
-void	ft_cd(t_msh *msh)
+void	ft_cd(t_msh *msh, t_cmd *cmd)
 {
 	char	*content;
 	char	buffer[1000];
 
-	if (msh->cmd->len_argv == 1 || !ft_strncmp(msh->cmd->argv[1], "~\0", 2))
+	if (cmd->len_argv == 1 || !ft_strncmp(cmd->argv[1], "~\0", 2))
 	{
 		content = ft_get_content(msh->env, "HOME");
 		if (!content)
 			perror("error");
 	}
-	else if (!ft_strncmp(msh->cmd->argv[1], "-\0", 2))
+	else if (!ft_strncmp(cmd->argv[1], "-\0", 2))
 	{
 		content = ft_get_content(msh->env, "OLDPWD");
 		if (!content)
 			perror("error");
 	}
 	else
-		content = msh->cmd->argv[1];
+		content = cmd->argv[1];
 	getcwd(buffer, 1000);
 	if (chdir(content) < 0)
 		perror("chdir");
