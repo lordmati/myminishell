@@ -29,7 +29,8 @@ static void	free_matrix(char **matrix)
 	i = 0;
 	while (matrix[i])
 		free(matrix[i++]);
-	free(matrix);
+	if (matrix)
+		free(matrix);
 	matrix = NULL;
 }
 

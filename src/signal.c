@@ -38,8 +38,9 @@ void	signal_c(int signal)
 	}
 }
 
-static void	signal_quit(void)
+static void	signal_quit(int signal)
 {
+	(void)signal;
 	write(2, "Quit (core dumped)\n", 20);
 }
 

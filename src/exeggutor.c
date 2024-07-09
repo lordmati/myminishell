@@ -9,7 +9,10 @@ static void	ft_child_executor2(t_msh *msh, int i, int fdpipe, t_cmd *cmd)
 	{
 		path = ft_get_path(msh, cmd);
 		if (!path)
-			return ((void)perror("path"));
+		{
+			perror("path");
+			exit(errno);
+		}
 		execve(path, cmd->argv, msh->envp);
 		perror("exec");
 		exit(errno);
@@ -107,7 +110,10 @@ void	ft_child_executor(t_msh *msh, int i, int fdpipe, t_cmd *cmd)
 		{
 			path = ft_get_path(msh, cmd);
 			if (!path)
-				return ((void)perror("path"));
+			{
+				perror("path");
+				exit(errno);
+			}
 			execve(path, cmd->argv, msh->envp);
 			perror("exec");
 			exit(errno);

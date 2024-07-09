@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	g_sig;
+int	g_sig = 0;
 
 static void	init_struck(t_msh *msh)
 {
@@ -53,7 +53,6 @@ static	void	minishell(t_msh *msh, char **envp)
 
 int	main(int argc, char **argv, char **envp)
 {
-	g_sig = 0;
 	t_msh	msh;
 
 	(void)argc;

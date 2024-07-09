@@ -99,6 +99,7 @@ t_tok	*save_heredoc(t_tok *tok, t_msh *msh)
 	tok = tok->next;
 	if (last->fdin >= 3)
 		close (last->fdin);
+	signal(SIGQUIT, SIG_IGN);
 	pid = fork();
 	if (pid == 0)
 	{

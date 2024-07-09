@@ -41,7 +41,7 @@ static t_cmd	*new_node_cmd(int i, t_tok *tok)
 	cmd = malloc(sizeof(t_cmd));
 	if (!cmd)
 		return (NULL);
-	cmd->argv = malloc(sizeof(char *) * i + 1);
+	cmd->argv = ft_calloc(sizeof(char *), i + 1);
 	if (!cmd->argv)
 		return (NULL);
 	cmd->len_argv = i;

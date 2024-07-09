@@ -29,7 +29,7 @@ void	ft_echo(t_cmd *cmd)
 
 	i = 1;
 	n_flag = 0;
-	dprintf(2, "esto es echo\n");
+	//dprintf(2, "esto es echo\n");
 	while (cmd->argv[i] && (!ft_strncmp(cmd->argv[i], "-n", 3)))
 	{
 		n_flag = 1;

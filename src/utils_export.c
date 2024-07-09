@@ -34,7 +34,7 @@ int	ft_valid_identifier(t_msh *msh)
 	while (str[i])
 	{
 		j = 0;
-		while (str[i][j])
+		while (str[i][j] != '=')
 		{
 			if (ft_isdigit(str[i][0]) || !ft_isalnum(str[i][j]))
 			{
