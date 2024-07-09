@@ -19,6 +19,7 @@
 # define ERROR_SIMPLE_QUOTES "Conchita : expected to close the quote"
 # define ERROR_NO_FILE ": No such file or directory"
 # define ERROR_SLASH "Conchita : expected to scape character"
+# define ERROR_HEREDOC "Conchita : warning: here-document at line 1 delimited by end-of-file "
 
 typedef struct s_cmd
 {

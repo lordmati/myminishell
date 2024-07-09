@@ -56,7 +56,7 @@ static void	call_get_next_line(t_tok *tok, t_msh *msh)
 		line = readline("Heredoc > ");
 		if (!line)
 		{
-			printf("bash warningno se que\n");
+			msj_error(ERROR_HEREDOC, msh, 0);
 			break ;
 		}
 		if (ft_strncmp(line, tok->content, ft_strlen(tok->content) + 1) == 0)

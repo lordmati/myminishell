@@ -22,9 +22,7 @@ static int	ft_special_atoi(char *str)
 		num = (num * 10) + (str[i] - '0');
 		++i;
 	}
-	if (num > 255)
-		return ((int)(num-1) % 255);
-	return ((int)(num) % 255);
+	return ((int)(num) % 256);
 }
 
 void	ft_exit(t_cmd *cmd)
