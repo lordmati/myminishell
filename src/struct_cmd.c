@@ -50,7 +50,7 @@ static t_cmd	*new_node_cmd(int i, t_tok *tok)
 	{
 		if (tok->type == T_WORD)
 			cmd->argv[i++] = ft_strdup(tok->content);
-		else if (tok->next && (tok->type >= 8 && tok->type <= 11))
+		else if (tok->next && (tok->type >= 2 && tok->type <= 5))
 			tok = tok->next;
 		tok = tok->next;
 	}

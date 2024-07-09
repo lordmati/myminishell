@@ -11,7 +11,7 @@ int	calculate_matrix(t_tok *tok)
 	{
 		if (aux->type == T_WORD)
 			i++;
-		else if (aux->next && (aux->type >= 8 && aux->type <= 11))
+		else if (aux->next && (aux->type >= 2 && aux->type <= 5))
 			aux = aux->next;
 		aux = aux->next;
 	}

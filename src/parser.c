@@ -9,12 +9,12 @@ static int	syntactic_analysis(t_msh *msh, int i)
 	{
 		if (aux->type == T_PIPE && i == 1)
 			return (msj_error(ERROR_PIPES, msh, 2), 0);
-		else if (aux->type >= 7 && aux->type <= 11 && aux->next == NULL)
+		else if (aux->type >= 1 && aux->type <= 5 && aux->next == NULL)
 		{
 			msj_error(ERROR_NEWLINE, msh, 127);
 			return (0);
 		}
-		else if ((aux->type >= 8 && aux->type <= 11)
+		else if ((aux->type >= 2 && aux->type <= 5)
 			&& (aux->next->type != T_WORD
 				&& aux->next->type != T_DOUBLE_QUOTE
 				&& aux->next->type != T_SIMPLE_QUOTE))

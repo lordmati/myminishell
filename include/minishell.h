@@ -13,12 +13,12 @@
 # include <readline/history.h>
 # include <sys/wait.h>
 # include <errno.h>
-# define ERROR_PIPES "bash: syntax error near unexpected token `|'"
-# define ERROR_NEWLINE "bash: syntax error near unexpected token `newline'"
-# define ERROR_DOUBLE_QUOTES "bash: expected to close the double quote"
-# define ERROR_SIMPLE_QUOTES "bash: expected to close the quote"
+# define ERROR_PIPES "Conchita : syntax error near unexpected token `|'"
+# define ERROR_NEWLINE "Conchita : syntax error near unexpected token `newline'"
+# define ERROR_DOUBLE_QUOTES "Conchita : expected to close the double quote"
+# define ERROR_SIMPLE_QUOTES "Conchita : expected to close the quote"
 # define ERROR_NO_FILE ": No such file or directory"
-# define ERROR_SLASH "bash: expected to scape character"
+# define ERROR_SLASH "Conchita : expected to scape character"
 
 typedef struct s_cmd
 {
@@ -47,25 +47,15 @@ typedef struct s_env
 
 typedef enum e_tok_type
 {
-	T_PIPE = 7,
-	T_HEREDOC = 8,
-	T_APPEND = 9,
-	T_REDIRECTION_INFILE = 10,
-	T_REDIRECTION_OUTFILE = 11,
-	T_WORD = 12,
-	T_SIMPLE_QUOTE = 13,
-	T_DOUBLE_QUOTE = 14,
+	T_PIPE = 1,
+	T_HEREDOC = 2,
+	T_APPEND = 3,
+	T_REDIRECTION_INFILE = 4,
+	T_REDIRECTION_OUTFILE = 5,
+	T_WORD = 6,
+	T_SIMPLE_QUOTE = 7,
+	T_DOUBLE_QUOTE = 8,
 }	t_tok_type;
-
-typedef enum e_stats
-{
-	S_INIT = 1,
-	S_WORD = 2,
-	S_QUOTE = 3,
-	S_DOUBLE_QUOTE = 4,
-	S_DOLLAR = 5,
-	S_DOLLAR_DOUBLE_QUOTE = 6
-}	t_stats;
 
 typedef struct s_msh
 {

@@ -82,7 +82,7 @@ t_tok	*save_infile(t_tok *tok, t_msh *msh)
 	if (msh->cmd->fdin == -1)
 	{
 		msh->cmd->error = 1;
-		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd("Conchita : ", 2);
 		ft_putstr_fd(tok->content, 2);
 		msj_error(ERROR_NO_FILE, msh, 1);
 	}
