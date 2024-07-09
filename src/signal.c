@@ -8,7 +8,6 @@ void	heredoc_handler(int signum)
 	exit(130);
 }
 
-
 void	signal_d(t_msh *msh)
 {
 	free_msh(msh);
@@ -39,12 +38,12 @@ void	signal_c(int signal)
 	}
 }
 
-static void	signal_quit()
+static void	signal_quit(void)
 {
 	write(2, "Quit (core dumped)\n", 20);
 }
 
-void init_signal(void)
+void	init_signal(void)
 {
 	signal(SIGTSTP, SIG_IGN);
 	if (g_sig == 0)

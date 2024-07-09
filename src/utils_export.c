@@ -2,8 +2,8 @@
 
 void	ft_free_env(t_env **env)
 {
-	t_env *node;
-	t_env *tmp;
+	t_env	*node;
+	t_env	*tmp;
 
 	node = *env;
 	while (node)

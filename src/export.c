@@ -50,7 +50,7 @@ void	ft_push(t_env **env, char *name, char *content)
 	ft_addback(env, node);
 }
 
-void	ft_add_expt(int i, t_cmd *cmd ,t_env **env)
+void	ft_add_expt(int i, t_cmd *cmd, t_env **env)
 {
 	char	**str;
 	t_env	*aux;
