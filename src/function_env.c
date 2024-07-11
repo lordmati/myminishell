@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   function_env.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: misaguir <misaguir@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: pgonzal2 <pgonzal2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 16:56:20 by misaguir          #+#    #+#             */
-/*   Updated: 2024/07/10 16:56:21 by misaguir         ###   ########.fr       */
+/*   Updated: 2024/07/11 12:36:46 by pgonzal2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	create_first_node(char **envp, t_env *node)
 			break ;
 		i++;
 	}
-	node->name = malloc(sizeof(char ) * i + 1);
+	node->name = ft_calloc(sizeof(char ), i + 1);
 	if (!node->name)
 		return ;
 	ft_strlcpy(node->name, envp[0], i);
@@ -49,7 +49,7 @@ static void	take_env(t_env *aux, char **envp)
 			if (envp[i][j] == '=')
 				break ;
 		}
-		aux->name = malloc(sizeof(char) * j + 1);
+		aux->name = ft_calloc(sizeof(char), j + 1);
 		if (!aux->name)
 			return ;
 		ft_strlcpy(aux->name, envp[i], ++j);

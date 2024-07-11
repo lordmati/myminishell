@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exeggutor_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: misaguir <misaguir@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: pgonzal2 <pgonzal2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 17:17:34 by misaguir          #+#    #+#             */
-/*   Updated: 2024/07/10 17:22:48 by misaguir         ###   ########.fr       */
+/*   Updated: 2024/07/11 12:33:00 by pgonzal2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	one_cmd(t_msh *msh, t_cmd *cmd, int i, int tmpout)
 		if (!ft_builtins(msh, cmd))
 		{
 			ft_redirections(msh, ++i, tmpout, cmd);
-			ft_child_executor2(msh, i, fdpipe[1], cmd);
+			ft_only_son(msh, i, fdpipe[1], cmd);
 		}
 	}
 }

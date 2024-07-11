@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_export.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: misaguir <misaguir@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: pgonzal2 <pgonzal2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 16:56:57 by misaguir          #+#    #+#             */
-/*   Updated: 2024/07/10 16:56:58 by misaguir         ###   ########.fr       */
+/*   Updated: 2024/07/11 12:37:04 by pgonzal2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ t_env	*new_node(int i)
 	if (!new)
 		return (NULL);
 	new->content = NULL;
-	new->name = malloc(sizeof(char) * i + 1);
+	new->name = ft_calloc(sizeof(char), i + 1);
 	new->next = NULL;
 	return (new);
 }

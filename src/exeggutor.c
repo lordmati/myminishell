@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exeggutor.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: misaguir <misaguir@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: pgonzal2 <pgonzal2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 16:55:59 by misaguir          #+#    #+#             */
-/*   Updated: 2024/07/10 17:24:32 by misaguir         ###   ########.fr       */
+/*   Updated: 2024/07/11 13:04:07 by pgonzal2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_exeggutor(t_msh *msh, int i)
 	cmd = msh->cmd;
 	if (!cmd)
 		return ;
-	msh->pids = malloc(sizeof(int) * msh->len_cmds);
+	msh->pids = ft_calloc(sizeof(int), msh->len_cmds);
 	tmpin = dup(0);
 	tmpout = dup(1);
 	if (cmd->fdin == -1)

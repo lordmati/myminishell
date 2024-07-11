@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: misaguir <misaguir@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: pgonzal2 <pgonzal2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 16:56:09 by misaguir          #+#    #+#             */
-/*   Updated: 2024/07/10 16:56:10 by misaguir         ###   ########.fr       */
+/*   Updated: 2024/07/11 12:36:09 by pgonzal2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*check_word(char *line, int *i)
 		j++;
 		len++;
 	}
-	ret = malloc(sizeof (char *) * (len + 1));
+	ret = ft_calloc(sizeof (char *), (len + 1));
 	if (!ret)
 		return (NULL);
 	j = 0;
@@ -45,7 +45,7 @@ char	*joined_msh(char *line, char *aux)
 	j = 0;
 	i = 0;
 	size = ft_strlen(line) + ft_strlen(aux);
-	ret = (char *)malloc(sizeof(char) * size + 1);
+	ret = (char *)ft_calloc(sizeof(char), size + 1);
 	if (ret == NULL)
 		return (NULL);
 	while (line[i] != '\0')
