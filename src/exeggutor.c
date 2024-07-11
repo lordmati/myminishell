@@ -1,35 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exeggutor.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: misaguir <misaguir@student.42malaga.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/10 16:55:59 by misaguir          #+#    #+#             */
+/*   Updated: 2024/07/10 17:24:32 by misaguir         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-static void	ft_child_executor2(t_msh *msh, int i, int fdpipe, t_cmd *cmd)
-{
-	char	*path;
-
-	msh->pids[i] = fork();
-	if (msh->pids[i] == 0)
-	{
-		path = ft_get_path(msh, cmd);
-		if (!path)
-		{
-			perror("path");
-			exit(errno);
-		}
-		execve(path, cmd->argv, msh->envp);
-		perror("exec");
-		exit(errno);
-	}
-	else    //da un error mas 
-	{
-		if (i < msh->len_cmds - 1)
-			close(fdpipe);
-	}
-}
 void	ft_exeggutor(t_msh *msh, int i)
 {
-	int	tmpin;
-	int	tmpout;
-	int	fdpipe[2];
+	int		tmpin;
+	int		tmpout;
 	t_cmd	*cmd;
-	//char 	*path;
 
 	cmd = msh->cmd;
 	if (!cmd)
@@ -40,39 +27,10 @@ void	ft_exeggutor(t_msh *msh, int i)
 	if (cmd->fdin == -1)
 		cmd->fdin = dup(tmpin);
 	if (msh->len_cmds == 1)
-	{
-		if (!ft_builtins(msh, cmd))
-		{
-			ft_redirections(msh, ++i, tmpout, cmd);
-			// path = ft_get_path(msh, cmd);
-			// if (!path)
-			// 	return ((void)perror("path"));
-			// execve(path, cmd->argv, msh->envp);
-			// perror("exec");
-			ft_child_executor2(msh, i, fdpipe[1], cmd);
-		}
-	}
+		one_cmd(msh, cmd, i, tmpout);
 	else
-	{
-		while (++i < msh->len_cmds)
-		{
-			if (!cmd->error)
-			{
-				ft_redirections(msh, i, tmpout, cmd);
-				ft_child_executor(msh, i, fdpipe[1], cmd);	
-			}
-			else
-				msh->len_cmds--;
-			cmd = cmd->next;
-		}
-	}
-	waitpid(msh->pids[msh->len_cmds - 1], &msh->number_status, 0);
-	msh->number_status = WEXITSTATUS(msh->number_status);
-	ft_kill_children(msh->pids, msh->len_cmds - 1);
-	dup2(tmpin, 0);
-	dup2(tmpout, 1);
-	close(tmpin);
-	close(tmpout);
+		multiple_cmds(msh, cmd, i, tmpout);
+	cleanup_process_execution(msh, tmpin, tmpout);
 }
 
 void	ft_redirections(t_msh *msh, int i, int tmpout, t_cmd *cmd)
@@ -106,7 +64,7 @@ void	ft_child_executor(t_msh *msh, int i, int fdpipe, t_cmd *cmd)
 	msh->pids[i] = fork();
 	if (msh->pids[i] == 0)
 	{
-		if (!ft_builtins(msh,cmd))
+		if (!ft_builtins(msh, cmd))
 		{
 			path = ft_get_path(msh, cmd);
 			if (!path)
@@ -121,23 +79,35 @@ void	ft_child_executor(t_msh *msh, int i, int fdpipe, t_cmd *cmd)
 		else
 			exit (msh->status);
 	}
-	else    //da un error mas 
+	else
 	{
 		if (i < msh->len_cmds - 1)
 			close(fdpipe);
 	}
 }
 
-
-char	*ft_get_content(t_env *env, char *name)
+void	ft_only_son(t_msh *msh, int i, int fdpipe, t_cmd *cmd)
 {
-	while (env != NULL)
+	char	*path;
+
+	msh->pids[i] = fork();
+	if (msh->pids[i] == 0)
 	{
-		if (ft_strncmp(env->name, name, ft_strlen(name) + 1) == 0)
-			return (env->content);
-		env = env->next;
+		path = ft_get_path(msh, cmd);
+		if (!path)
+		{
+			perror("path");
+			exit(errno);
+		}
+		execve(path, cmd->argv, msh->envp);
+		perror("exec");
+		exit(errno);
 	}
-	return (NULL);
+	else
+	{
+		if (i < msh->len_cmds - 1)
+			close(fdpipe);
+	}
 }
 
 char	*ft_get_path(t_msh *msh, t_cmd *cmd)
@@ -153,13 +123,16 @@ char	*ft_get_path(t_msh *msh, t_cmd *cmd)
 	content = ft_get_content(msh->env, "PATH");
 	if (!content)
 		return (NULL);
-	content_splited = ft_split(content, ':');
+	content_splited = find_executable_in_path(cmd, msh, content);
 	while (content_splited[++j] != NULL)
 	{
 		path = ft_strjoin(content_splited[j], "/");
-		path = ft_strjoin(path, cmd->argv[0]);
+		path = ft_strjoin_gnl(path, cmd->argv[0]);
 		if (access(path, X_OK) == 0)
 			return (path);
+		free(path);
 	}
-	return (NULL);
+	if (content_splited[j] == NULL)
+		msj_error("command not found", msh, 127);
+	exit (msh->number_status);
 }

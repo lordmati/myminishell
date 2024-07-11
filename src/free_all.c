@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free_all.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: misaguir <misaguir@student.42malaga.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/10 16:56:18 by misaguir          #+#    #+#             */
+/*   Updated: 2024/07/10 16:56:19 by misaguir         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	ft_kill_children(int *pids, int len)
@@ -22,7 +34,7 @@ void	free_token(t_tok **token)
 	}
 }
 
-static void	free_matrix(char **matrix)
+void	free_matrix(char **matrix)
 {
 	int	i;
 

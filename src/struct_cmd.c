@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   struct_cmd.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: misaguir <misaguir@student.42malaga.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/10 16:56:49 by misaguir          #+#    #+#             */
+/*   Updated: 2024/07/10 16:56:50 by misaguir         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static t_tok	*save_redirection(t_tok *tok, t_msh *msh)
@@ -5,9 +17,9 @@ static t_tok	*save_redirection(t_tok *tok, t_msh *msh)
 	while (tok && tok->type != T_PIPE)
 	{
 		if (tok->type == T_REDIRECTION_OUTFILE)
-			tok = save_trunc(tok, msh->cmd);
+			tok = save_trunc(tok, msh->cmd, msh);
 		else if (tok->type == T_APPEND)
-			tok = save_append(tok, msh->cmd);
+			tok = save_append(tok, msh->cmd, msh);
 		else if (tok->type == T_REDIRECTION_INFILE)
 			tok = save_infile(tok, msh);
 		else if (tok->type == T_HEREDOC)

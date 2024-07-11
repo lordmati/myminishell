@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_export.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: misaguir <misaguir@student.42malaga.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/10 16:56:57 by misaguir          #+#    #+#             */
+/*   Updated: 2024/07/10 16:56:58 by misaguir         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	ft_free_env(t_env **env)
@@ -29,14 +41,14 @@ int	ft_valid_identifier(t_msh *msh)
 	int		i;
 	int		j;
 
-	i = 0;
+	i = 1;
 	str = msh->cmd->argv;
 	while (str[i])
 	{
 		j = 0;
-		while (str[i][j] != '=')
+		while (str[i][j] && str[i][j] != '=')
 		{
-			if (ft_isdigit(str[i][0]) || !ft_isalnum(str[i][j]))
+			if ((ft_isdigit(str[i][0]) || !ft_isalnum(str[i][j])))
 			{
 				printf("export: %s: not a valid identifier\n", str[i]);
 				return (0);

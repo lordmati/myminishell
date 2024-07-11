@@ -33,6 +33,7 @@ FILES_SRC         = main.c \
 					exit.c \
 					expand_utils.c \
 					signal.c \
+					exeggutor_utils.c 
 
 SRC               = $(addprefix $(SRC_DIR),$(FILES_SRC))
 OBJ_SRC           = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)

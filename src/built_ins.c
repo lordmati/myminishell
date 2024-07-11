@@ -1,8 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   built_ins.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: misaguir <misaguir@student.42malaga.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/10 16:56:07 by misaguir          #+#    #+#             */
+/*   Updated: 2024/07/10 16:56:08 by misaguir         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	ft_builtins(t_msh *msh, t_cmd *cmd)
 {
-	//msh->len_cmds--;
 	if (cmd->argv[0] == NULL)
 		return (1);
 	if (!ft_strncmp(cmd->argv[0], "echo\0", 5))
@@ -29,7 +40,6 @@ void	ft_echo(t_cmd *cmd)
 
 	i = 1;
 	n_flag = 0;
-	//dprintf(2, "esto es echo\n");
 	while (cmd->argv[i] && (!ft_strncmp(cmd->argv[i], "-n", 3)))
 	{
 		n_flag = 1;

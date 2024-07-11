@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: misaguir <misaguir@student.42malaga.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/10 17:25:12 by misaguir          #+#    #+#             */
+/*   Updated: 2024/07/10 17:30:34 by misaguir         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -13,13 +25,13 @@
 # include <readline/history.h>
 # include <sys/wait.h>
 # include <errno.h>
-# define ERROR_PIPES "Conchita : syntax error near unexpected token `|'"
-# define ERROR_NEWLINE "Conchita : syntax error near unexpected token `newline'"
-# define ERROR_DOUBLE_QUOTES "Conchita : expected to close the double quote"
-# define ERROR_SIMPLE_QUOTES "Conchita : expected to close the quote"
+# define ERROR_PIPES "Conchita: syntax error near unexpected token `|'"
+# define ERROR_NEWLINE "Conchita: syntax error near unexpected token `newline'"
+# define ERROR_DOUBLE_QUOTES "Conchita: expected to close the double quote"
+# define ERROR_SIMPLE_QUOTES "Conchita: expected to close the quote"
 # define ERROR_NO_FILE ": No such file or directory"
-# define ERROR_SLASH "Conchita : expected to scape character"
-# define ERROR_HEREDOC "Conchita : warning: here-document at line 1 delimited by end-of-file "
+# define ERROR_SLASH "Conchita: expected to scape character"
+# define ERROR_HEREDOC "Conchita: here-document line 1 delimited by end-of-file"
 
 typedef struct s_cmd
 {
@@ -85,6 +97,7 @@ void	free_cmd(t_cmd **cmd);
 void	ft_free_node(t_env *node);
 void	ft_free_env(t_env **env);
 void	ft_kill_children(int *pids, int len);
+void	free_matrix(char **matrix);
 ///////UTILS_PARSER/////////
 void	msj_error(char *str, t_msh *msh, int status);
 //////UNION TOK//////////
@@ -101,22 +114,22 @@ void	check_dollar(t_msh *msh);
 //////////NODES TOK///////////////
 t_tok	*new_node_tok(int type, char *content, int flag);
 void	add_back_tok(t_tok **tok, t_tok *aux);
-void	tok_list(t_tok **tok,int type,char *content, int flag);
+void	tok_list(t_tok **tok, int type, char *content, int flag);
 //////////STRUCT CMD///////////////
 void	struct_cmd(t_msh *msh);
 int		calculate_matrix(t_tok *tok);
 t_cmd	*return_last(t_cmd *cmd);
 //////////SAVE OUTFILE/////////////
-t_tok	*save_trunc(t_tok *aux, t_cmd *cmd);
-t_tok	*save_append(t_tok *aux, t_cmd *cmd);
+t_tok	*save_trunc(t_tok *aux, t_cmd *cmd, t_msh *msh);
+t_tok	*save_append(t_tok *aux, t_cmd *cmd, t_msh *msh);
 /////////SAVE INFILE//////////////
 t_tok	*save_infile(t_tok *tok, t_msh *msh);
 t_tok	*save_heredoc(t_tok *tok, t_msh *msh);
 //////////////BUILT-INS//////////////
-void    ft_echo(t_cmd *cmd);
+void	ft_echo(t_cmd *cmd);
 void	ft_cd(t_msh *msh, t_cmd *cmd);
-void    ft_pwd();
-void    ft_env(t_msh *msh);
+void	ft_pwd(void);
+void	ft_env(t_msh *msh);
 void	ft_sort_expt(t_msh *msh);
 void	ft_add_expt(int i, t_cmd *cmd, t_env **env);
 void	ft_print_expt(t_msh *msh);
@@ -125,24 +138,25 @@ t_env	*new_node(int i);
 void	ft_swap(char **a, char **b);
 void	ft_export(t_msh *msh, t_cmd *cmd);
 void	ft_push(t_env **env, char *name, char *content);
-void    ft_pop(t_env **head, char *str);
-void    ft_unset(t_msh *data, t_cmd *cmd);
+void	ft_pop(t_env **head, char *str);
+void	ft_unset(t_msh *data, t_cmd *cmd);
 void	ft_exit(t_cmd *cmd);
 /////////////EXPAND_HD/////////////////
 char	*check_word(char *line, int *i);
 char	*joined_msh(char *line, char *aux);
-char	*expand_env(char *str,t_env *env, t_msh *msh);
+char	*expand_env(char *str, t_env *env, t_msh *msh);
 char	*check_env(char *str, int *i, t_msh *msh);
 ////////////////exeggutor/////////////////
-void    ft_exeggutor(t_msh *msh, int i);
-char    *ft_get_content(t_env *env, char *name);
+void	ft_exeggutor(t_msh *msh, int i);
+char	*ft_get_content(t_env *env, char *name);
 char	*ft_get_path(t_msh *msh, t_cmd *cmd);
-int     ft_builtins(t_msh *msh, t_cmd *cmd);
-void    ft_child_executor(t_msh *msh, int i, int fdpipe, t_cmd *cmd);
-void    ft_redirections(t_msh *msh, int i, int tmpout, t_cmd *cmd);
-
-
-//////////////PRINT///////////////  
-void printenv(t_env *env);
+int		ft_builtins(t_msh *msh, t_cmd *cmd);
+void	ft_child_executor(t_msh *msh, int i, int fdpipe, t_cmd *cmd);
+void	ft_redirections(t_msh *msh, int i, int tmpout, t_cmd *cmd);
+void	cleanup_process_execution(t_msh *msh, int tmpin, int tmpout);
+void	one_cmd(t_msh *msh, t_cmd *cmd, int i, int tmpout);
+void	multiple_cmds(t_msh *msh, t_cmd *cmd, int i, int tmpout);
+void	ft_only_son(t_msh *msh, int i, int fdpipe, t_cmd *cmd);
+char	**find_executable_in_path(t_cmd *cmd, t_msh *msh, char *content);
 
 #endif
